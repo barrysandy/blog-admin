@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:23 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>管理后台-登录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link th:href="@{/css/animate.min.css}" href="/css/animate.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+
+<body class="gray-bg">
+	<form id="upload" action="#" enctype="multipart/form-data">
+	    <input type="file" name="file">
+	    <a onclick="upload()" class="btn green"> 提交 </a>
+	</form>
+	
+    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script type="text/javascript">
+	    function upload(){
+	        var formData = new FormData($( "#upload" )[0]);  
+	        var ajaxUrl = "http://localhost:9090/admin/upload/upImage";
+	        //alert(ajaxUrl);
+	        //$('#uploadPic').serialize() 无法序列化二进制文件，这里采用formData上传
+	        //需要浏览器支持：Chrome 7+、Firefox 4+、IE 10+、Opera 12+、Safari 5+。
+	        $.ajax({
+	            type: "POST",
+	            //dataType: "text",
+	            url: ajaxUrl,
+	            data: formData,
+	            async: false,  
+	            cache: false,  
+	            contentType: false,  
+	            processData: false,
+	            success: function (data) {
+	            	alert(data);
+	            },
+	            error: function(data) {
+	                alert("error:" + data.responseText);
+	
+	             }
+	        });
+	        return false;
+	    }
+    </script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:23 GMT -->
+</html>
