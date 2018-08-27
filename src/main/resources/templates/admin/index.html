@@ -22,6 +22,11 @@
 	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
 	    <link th:href="@{/css/animate.min.css}" href="/css/animate.min.css" rel="stylesheet">
 	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    <style type="text/css">
+	    	.meun_font{
+	    		margin-left: 10px;
+	    	}
+	    </style>
 	</head>
 
 	<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -60,37 +65,22 @@
 	                    </li>
 	                    <li>
 	                        <a href="#">
-	                            <i class="fa fa-home"></i>
-	                            <span class="nav-label">系统管理</span>
-	                            <span class="fa arrow"></span>
+	                            <i class="fa fa-desktop"></i><span class="nav-label">系统管理</span><span class="fa arrow"></span>
 	                        </a>
 	                        <ul class="nav nav-second-level">
 	                            <li>
-	                                <a class="J_menuItem" th:href="@{/user/list}" href="index_v1.html" data-index="0">用户中心</a>
+	                                <a class="J_menuItem fa fa-sliders" th:href="@{/menu/list}" href="index_v1.html" data-index="0"><span class="meun_font">菜单管理</span></a>
 	                            </li>
 	                            <li>
-	                                <a class="J_menuItem" th:href="@{/user/toUpdate}" href="index_v3.html">添加用户</a>
+	                                <a class="J_menuItem fa fa-users" th:href="@{/role/list}" href="index_v1.html" data-index="0"><span class="meun_font">角色管理</span></a>
+	                            </li>
+	                            <li>
+	                                <a class="J_menuItem fa fa-user" th:href="@{/admin/list}" href="index_v1.html" data-index="0"><span class="meun_font">用户管理</span></a>
 	                            </li>
 	                        </ul>
 	
 	                    </li>
-	                    <li>
-	                        <a href="#">
-	                            <i class="fa fa-users"></i>
-	                            <span class="nav-label">用户管理</span>
-	                            <span class="fa arrow"></span>
-	                        </a>
-	                        <ul class="nav nav-second-level">
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/user/list}" href="index_v1.html" data-index="0">用户中心</a>
-	                            </li>
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/user/toUpdate}" href="index_v3.html">添加用户</a>
-	                            </li>
-	                        </ul>
-	
-	                    </li>
-	                    
+
 	                    <li>
 	                        <a href="#">
 	                            <i class="fa fa-book"></i>
@@ -100,9 +90,6 @@
 	                        <ul class="nav nav-second-level">
 	                            <li>
 	                                <a class="J_menuItem" th:href="@{/art/list}" href="index_v1.html" data-index="0">文章列表</a>
-	                            </li>
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/art/toUpdate}" href="index_v3.html">添加文章</a>
 	                            </li>
 	                        </ul>
 	
@@ -119,9 +106,6 @@
 	                        <ul class="nav nav-second-level">
 	                            <li>
 	                                <a class="J_menuItem" th:href="@{/label/list}" href="index_v1.html" data-index="0">标签列表</a>
-	                            </li>
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/label/toUpdate}" href="index_v3.html">添加标签</a>
 	                            </li>
 	                        </ul>
 	

@@ -22,48 +22,44 @@
 	    <!-- BT Css -->
 	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
 	    
-	    
-	    <!-- 图标 Font Awesome http://fontawesome.dashgame.com/ -->
-	    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-	    
 	    <!-- Sweet Alert -->
     	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 	    
 	</head>
 	
 	<body class="gray-bg">
-		<input type="hidden" id="path" th:value="${'http://localhost:8080' + #servletContext.contextPath }" />
-	    <div class="wrapper wrapper-content animated fadeInRight" style="width: 90%;margin-left: 5%;">
-	        <div class="row">
-	            <div class="col-sm-12">
-	                <div class="ibox float-e-margins">
-<!-- 	                    <div class="ibox-title">
-	                        <h5 id="h5">用户列表</h5>
-	                        <div class="ibox-tools">
-	                            <a class="collapse-link">
-	                                <i class="fa fa-chevron-up"></i>
-	                            </a>
-	                            <a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">
-	                                <i class="fa fa-wrench"></i>
-	                            </a>
-	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a onclick="window.location.reload()">刷新本页</a></li>
-	                            </ul>
-	                            <a class="close-link">
-	                                <i class="fa fa-times"></i>
-	                            </a>
-	                        </div>
-	                    </div> -->
-	                    
-	                    <div class="ibox-content">
-	                    	<!-- <a th:href="@{/user/toUpdate}" type="button" class="btn btn-primary btn-xs"> +新增 </a> -->
-	                        <table id="table"></table>
-	                    </div>
-	                </div>
+		<input type="hidden" id="path" th:value="${app_path }" />
+	    <div class="ibox float-e-margins">
+			<div class="ibox-title">
+	            <h5>角色列表<small>（<a th:href="@{toUpdate}">新增</a>）</small> </h5>
+	            <div class="ibox-tools">
+	                <a class="collapse-link" title="折叠">
+	                    <i class="fa fa-chevron-up"></i>
+	                </a>
+	                <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
+	                    <i class="fa fa-wrench"></i>
+	                </a>
+	                <ul class="dropdown-menu dropdown-user">
+	                    <li><a href="javascript:window.location.reload()">刷新</a></li>
+	                </ul>
+<!-- 	                <a class="close-link" title="后退" onclick="window.history.go(-1)">
+	                    <i class="fa fa-times"></i>
+	                </a> -->
 	            </div>
 	        </div>
-        
-        	
+	        <div class="ibox-content">
+			    <div class="wrapper wrapper-content animated fadeInRight" style="width: 100%;margin-left: 0%;">
+			        <div class="row">
+			            <div class="col-sm-12">
+			                <div class="ibox float-e-margins">
+			                    <div class="ibox-content">
+			                        <table id="table"></table>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+		        </div>	
+		    </div>
 	    </div>
 	    
 	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
@@ -82,7 +78,7 @@
 	    <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	    
 		<script type="text/javascript">
-		var path = $("#path").val() + "/user/lists";
+		var path = $("#path").val() + "/role/lists";
 		 $("#table").bootstrapTable({ // 对应table标签的id
 		      url: path, // 获取表格数据的url
 		      toolbar: '#toolbar', //工具按钮用哪个容器
@@ -123,20 +119,26 @@
 		              valign: 'middle' // 上下居中
 		          }, {
 		              field: 'name',
-		              title: '名称',
+		              title: '角色名称',
 		              width: '20%', // 定义列的宽度，单位为像素px
 		              align: 'center',
 		              valign: 'middle'
-		          }, {
-		              field: 'password',
-		              title: '密码',
-		              width: '20%', // 定义列的宽度，单位为像素px
-		              align: 'center',
-		              valign: 'middle'
-		          }, {
+		          },  {
 		              field: 'descM',
 		              title: '描述',
-		              width: '45%', // 定义列的宽度，单位为像素px
+		              width: 'auto', // 定义列的宽度，单位为像素px
+		              align: 'center',
+		              valign: 'middle'
+		          }, {
+		              field: 'createTime',
+		              title: '创建时间',
+		              width: '12%', // 定义列的宽度，单位为像素px
+		              align: 'center',
+		              valign: 'middle'
+		          }, {
+		              field: 'statuses',
+		              title: '状态',
+		              width: '6%', // 定义列的宽度，单位为像素px
 		              align: 'center',
 		              valign: 'middle'
 		          }, {
@@ -160,7 +162,7 @@
 		
 		 
 		function update(id){
-			window.location.href = $("#path").val() + "/user/toUpdate?id=" + id; 
+			window.location.href = $("#path").val() + "/role/toUpdate?id=" + id; 
 		}
 		
 		function del(id){
@@ -173,7 +175,7 @@
 		        confirmButtonText: "删除",
 		        closeOnConfirm: false
 		    }, function () {
-		    	var url = $("#path").val() + "/user/del";
+		    	var url = $("#path").val() + "/role/del";
 		    	$.get(url,{'id':id,},function(result){
 	                if(result > 0){
 	                	swal("删除成功！", "您已经永久删除了这条信息。", "success");

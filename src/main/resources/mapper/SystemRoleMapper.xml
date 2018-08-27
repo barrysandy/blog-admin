@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgb.org.dao.SystemRoleMapper">
+	<resultMap id="BaseResultMap" type="com.xgb.org.domain.SystemRole">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="descM" column="descM" javaType="java.lang.String"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+		<result property="statuses" column="statuses" javaType="java.lang.Integer"></result>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name,descM,createTime,updateTime,statuses
+	</sql>
+	
+	<!-- 按ID查询 -->
+	<select id="getBeanById" parameterType="com.xgb.org.domain.SystemRole" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from t_system_role where id = #{id}
+	</select>
+	
+	<!-- 按ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_system_role where id = #{id}
+	</delete>
+	
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.xgb.org.domain.SystemRole">
+		insert into t_system_role
+		(id,name,descM,createTime,updateTime,statuses)
+		values
+		(#{id},#{name},#{descM},#{createTime},#{updateTime},#{statuses} )
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" parameterType="com.xgb.org.domain.SystemRole">
+		update t_system_role
+		<set>
+			<if test="id != null and id !=''">id =#{id},</if>
+			<if test="name != null and name !=''">name =#{name},</if>
+			<if test="descM != null and descM !=''">descM =#{descM},</if>
+			<if test="createTime != null and createTime !=''">createTime =#{createTime},</if>
+			<if test="updateTime != null and updateTime !=''">updateTime =#{updateTime},</if>
+		</set>
+		,statuses =#{statuses}
+		where id = #{id}
+	</update>
+	
+	
+	<select id="getList" parameterType="java.util.Map"
+		resultMap="BaseResultMap" resultType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from t_system_role where 1=1 
+		<if test="search != null and search !=''">
+			AND (name LIKE concat('%',#{search},'%') OR descM LIKE concat('%',#{search},'%'))
+		</if>
+	</select>
+	
+	<select id="getCount" parameterType="com.xgb.org.domain.SystemRole" resultType="int">
+		select count(*) from t_system_role where 1=1 
+		<if test="search != null and search !=''">
+			AND (name LIKE concat('%',#{search},'%') OR descM LIKE concat('%',#{search},'%'))
+		</if>
+	</select>
+	
+
+</mapper>

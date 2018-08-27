@@ -6,9 +6,10 @@
 		<result property="name" column="name" javaType="java.lang.String"></result>
 		<result property="password" column="password" javaType="java.lang.String"></result>
 		<result property="descM" column="descM" javaType="java.lang.String"></result>
+		<result property="roleId" column="roleId" javaType="java.lang.String"></result>
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,name,password,descM
+		id,name,password,descM,roleId
 	</sql>
 	
 	<!-- 按ID查询 -->

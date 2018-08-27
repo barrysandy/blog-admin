@@ -33,19 +33,38 @@
 	
 	<body class="gray-bg">
 		<input type="hidden" id="path" th:value="${app_path }" />
-	    <div class="wrapper wrapper-content animated fadeInRight" style="width: 90%;margin-left: 5%;">
-	        <div class="row">
-	            <div class="col-sm-12">
-	                <div class="ibox float-e-margins">
-	                    <div class="ibox-content">
-	                        <table id="table"></table>
-	                    </div>
-	                </div>
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+	            <h5>标签列表<small>（<a th:href="@{toUpdate}">新增</a>）</small> </h5>
+	            <div class="ibox-tools">
+	                <a class="collapse-link" title="折叠">
+	                    <i class="fa fa-chevron-up"></i>
+	                </a>
+	                <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
+	                    <i class="fa fa-wrench"></i>
+	                </a>
+	                <ul class="dropdown-menu dropdown-user">
+	                    <li><a href="javascript:window.location.reload()">刷新</a></li>
+	                </ul>
+<!-- 	                <a class="close-link" title="后退" onclick="window.history.go(-1)">
+	                    <i class="fa fa-times"></i>
+	                </a> -->
 	            </div>
 	        </div>
-        	
+	        <div class="ibox-content">
+			    <div class="wrapper wrapper-content animated fadeInRight" style="width: 100%;margin-left: 0%;">
+			        <div class="row">
+			            <div class="col-sm-12">
+			                <div class="ibox float-e-margins">
+			                    <div class="ibox-content">
+			                        <table id="table"></table>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+		        </div>	
+		    </div>
 	    </div>
-	    
 	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
 	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
 	    <script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>

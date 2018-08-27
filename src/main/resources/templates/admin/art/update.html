@@ -45,12 +45,9 @@
 	                                <i class="fa fa-wrench"></i>
 	                            </a>
 	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="form_basic.html#">选项1</a>
-	                                </li>
-	                                <li><a href="form_basic.html#">选项2</a>
-	                                </li>
+	                                <li><a href="javascript:window.location.reload()">刷新</a></li>
 	                            </ul>
-	                            <a class="close-link" title="后退" th:if="${art.id} ne '0' " onclick="window.history.go(-1)">
+	                            <a class="close-link" title="后退" onclick="window.history.go(-1)">
 	                                <i class="fa fa-times"></i>
 	                            </a>
 	                        </div>
@@ -81,11 +78,11 @@
 	                                <div class="col-sm-10">
 	                                    <!-- <input type="text" class="form-control" name="image" th:value="${art.image}" > -->
 	                                    <a id="showIma">
-	                                    	<img id="img_input_show" th:src="${art.image}" onerror="this.src='http://localhost:9090/admin/img/zd01.jpg'" style="height: 100px;width: auto;">
+	                                    	<img id="img_input_show" th:src="${art.image}" style="height: 100px;width: auto;">
 	                                    </a>
 	                                    <label title="上传图片" for="img_input_file" class="btn btn-primary">
                                         <input type="file" accept="image/*" name="file" id="img_input_file" class="hide" onchange="doUploadImage();"/> 上传新图片
-                                        <input type="hidden" id="img_input_name" class="u-input" name="image"/>
+                                        <input type="hidden" id="img_input_name" class="u-input" name="image" th:value="${art.image}"/>
                                         <input type="hidden" id="img_input_diskPath" class="u-input" name="diskPath"/>
                                         <script type="text/javascript">
 			                                updateImg = "";//上传文件的返回url
@@ -124,7 +121,7 @@
 			                                             $("#img_input_name").val(updateImg);
 			                                             $("#img_input_diskPath").val(diskPath);
 			                                             
-			                                             alert("success : " + updateImg + "    " + diskPath);
+			                                             //alert("success : " + updateImg + "    " + diskPath);
 			                                             
 			                                           	 //添加 img
 			                                             //获取添加图片的div，id为showIma

@@ -17,10 +17,9 @@ public interface AdminMapper {
 	
 	int deleteById(@Param("id") String id);
 	
-//	@Select("select id,name,password,descM from t_user_temp where id = #{id}")
 	Admin getBeanById(@Param("id") String id);
 	
-	@Select("select id,name,password,descM from t_admin where name = #{name} and password = #{password}")
+	@Select("select id,name,password,descM,roleId from t_admin where name = #{name} and password = #{password}")
 	Admin getBeanByNameAndPassword(@Param("name") String name,@Param("password") String password);
 	
 	List<Admin> getList(@Param("search") String search);

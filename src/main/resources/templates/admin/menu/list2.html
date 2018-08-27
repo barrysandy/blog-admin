@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+	<head>
+	
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	    <title></title>
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+	    <link th:href="@{/css/plugins/iCheck/custom.css}" href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	    <link th:href="@{/css/animate.min.css}" href="css/animate.min.css" rel="stylesheet">
+	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!-- BT Css -->
+	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+	    
+	    <!-- Sweet Alert -->
+    	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	    
+	</head>
+	
+	<body class="gray-bg">
+		<input type="hidden" id="path" th:value="${app_path }" />
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>菜单管理  </h5>
+				<div class="ibox-tools">
+				    <a class="collapse-link" title="折叠">
+				        <i class="fa fa-chevron-up"></i>
+				    </a>
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
+				        <i class="fa fa-wrench"></i>
+				    </a>
+				    <ul class="dropdown-menu dropdown-user">
+				        <li><a href="javascript:window.location.reload()">刷新</a></li>
+				    </ul>
+				</div>
+			</div>
+			<div class="ibox-content">
+			    
+				<div class="col-sm-6">
+			        <ul id="systemTree" class="ztree" ></ul>
+			    </div>
+<!-- 			    <div class="col-sm-6">
+			        <div id="treeview11" class="test"></div>
+			    </div>
+			    <div class="col-sm-6">
+			        <h5>菜单配置：</h5>
+			        <hr>
+			        <div id="event_output">
+			        	<div class="col-md-4">
+                         	<input id="menu_text" type="text" class="form-control" style="margin-bottom: 10px;">
+                         	<input id="menu_href" type="text" class="form-control" style="margin-bottom: 10px;">
+                         	<input id="menu_tags" type="text" class="form-control" style="margin-bottom: 10px;">
+                         	<button class="btn btn-primary" type="submit">保存内容</button>
+                        </div>
+			        </div>
+			    </div> -->
+			    <div class="clearfix"></div>
+			</div>
+        </div>
+	    
+	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+	    <script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	    <script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
+	    
+		<script th:src="@{/js/plugins/treeview/bootstrap-treeview.js}" ></script>
+	    
+	    <!-- BT Js -->
+	    <script th:src="@{/plugins/bootstrap-table/dist/bootstrap-table.js}" src="plugins/bootstrap-table/dist/bootstrap-table.js"></script>
+	    <script th:src="@{/plugins/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js}" src="plugins/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+	    
+	    <!-- Sweet Alert -->
+	    <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	    
+   		<script type="text/javascript">
+   		
+   		var setting = {    
+   		        check:{
+   		            enable:true
+   		        },
+   		        data:    {
+   		            simpleData:{
+   		                enable:true
+   		            }
+   		        },
+   		        callback:{
+   		            onCheck:onCheck// 点击属性菜单复选框回调函数
+   		        }
+   		        
+   		    };
+   		    function onCheck(e,treeId,treeNode){
+   		        var treeObj1=$.fn.zTree.getZTreeObj("systemTree"),// 参数为目标ul的id
+   		        nodes1=treeObj1.getCheckedNodes(true),//  获取选中的节点集合
+   		        v1="";
+   		        // 将选中的系统菜单加载到右边
+   		        var target_table1 = $(".systemTable");//要加载的table的位置
+   		        //下面的for循环根据自己需要修改
+   		        for(var i=0;i<nodes1.length;i++){
+   			       // 一级菜单加粗
+   		        	if (nodes1[i].getParentNode() == null) {
+   		        		v1+= '<tr><td class="rightTd" id="'+nodes1[i].id+'"><b>'+nodes1[i].name+'</b></td></tr>';
+   		        	} else {
+   		        		v1+= '<tr><td class="rightTd" id="'+nodes1[i].id+'">'+nodes1[i].name+'</td></tr>';
+   		        	}
+   		        }
+   		        //显示在table中
+   		        target_table1.html(v1);
+   		    }
+   		    
+   		/*
+		var path = $("#path").val() + "/menu/lists";
+			$.get(path,{},function(result){
+            var e = result;
+            $("#treeview11").treeview({
+				data:e,
+				onNodeSelected : function(e,o){
+					$("#menu_text").val(o.text);
+					$("#menu_href").val(o.href);
+					$("#menu_tags").val(o.tags);
+					//$("#event_output").prepend("<p>您单击了 " + o.text + " ---  " + o.href + " ---  " + o.tags + "</p>")
+				}
+			});
+        });
+		*/
+		</script>
+	</body>
+</html>

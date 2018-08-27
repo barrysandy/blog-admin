@@ -29,57 +29,60 @@
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5 th:if="${user.id} eq '0' ">新增用户<small>（编辑）</small></h5>
-	                        <h5 th:if="${user.id} ne '0' ">更新用户<small>（编辑）</small></h5>
+	                        <h5 th:if="${role.id} eq '0' ">新增角色<small>（编辑）</small></h5>
+	                        <h5 th:if="${role.id} ne '0' ">更新角色<small>（编辑）</small></h5>
 	                        <div class="ibox-tools">
-	                            <a class="collapse-link">
+	                            <a class="collapse-link" title="折叠">
 	                                <i class="fa fa-chevron-up"></i>
 	                            </a>
-	                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+	                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
 	                                <i class="fa fa-wrench"></i>
 	                            </a>
 	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="form_basic.html#">选项1</a>
-	                                </li>
-	                                <li><a href="form_basic.html#">选项2</a>
-	                                </li>
+	                                <li><a href="javascript:window.location.reload()">刷新</a></li>
 	                            </ul>
-	                            <a class="close-link">
+	                            <a class="close-link" title="后退" onclick="window.history.go(-1)">
 	                                <i class="fa fa-times"></i>
 	                            </a>
 	                        </div>
 	                    </div>
 	                    <div class="ibox-content">
-	                        <form th:method="post" th:action="@{/user}" class="form-horizontal">
+	                        <form th:method="post" th:action="@{/role}" class="form-horizontal">
 	                        	<div class="form-group">
 	                                <label class="col-sm-2 control-label">编号</label>
 	                                <div class="col-sm-10">
-	                                    <input disabled="" class="form-control" type="text" th:value="${user.id}">
-	                                    <input class="form-control" type="hidden"  name="id" th:value="${user.id}">
+	                                    <input disabled="" class="form-control" type="text" th:value="${role.id}">
+	                                    <input type="hidden" name="createTime" th:value="${role.createTime}">
+	                                    <input type="hidden" name="updateTime" th:value="${role.updateTime}">
+	                                    <input type="hidden" name="id" th:value="${role.id}">
 	                                </div>
 	                            </div>
                                 <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">用户名</label>
+	                                <label class="col-sm-2 control-label">角色名称</label>
 	
 	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" name="name" th:value="${user.name}" >
+	                                    <input type="text" class="form-control" name="name" th:value="${role.name}" >
 	                                </div>
 	                            </div>
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">密码</label>
-	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" id="pw1" name="password" th:value="${user.password}" >
-	                                </div>
-	                            </div>
-	                            
 	                            <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
 	                                <label class="col-sm-2 control-label">描述</label>
 	
 	                                <div class="col-sm-10">
-	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${user.descM}">
+	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${role.descM}">
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">状态</label>
+	
+	                                <div class="col-sm-10">
+	                                    <select class="form-control m-b" name="statuses">
+                                        <option value="1">启用 1</option>
+                                        <option value="0">锁定 0</option>
+                                    </select>
 	                                </div>
 	                            </div>
 	                            

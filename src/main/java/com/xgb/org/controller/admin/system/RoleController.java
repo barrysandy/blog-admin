@@ -1,10 +1,11 @@
-package com.xgb.org.controller.admin.index;
+package com.xgb.org.controller.admin.system;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,22 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xgb.org.common.BootStrapPager;
+import com.xgb.org.common.DateUtils;
 import com.xgb.org.common.JsonUtils;
 import com.xgb.org.common.StringUtils;
-import com.xgb.org.domain.Admin;
-import com.xgb.org.service.AdminService;
+import com.xgb.org.domain.SystemRole;
+import com.xgb.org.service.SystemRoleService;
 
 @Controller
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping("role")
+public class RoleController {
+	
+	@Value("${app.path}")
+	private String APP_PATH;
 	
 	@Autowired
-	private AdminService adminService;
+	private SystemRoleService systemRoleService;
 	
 	
 	@GetMapping("/list")
 	public String list(HttpServletRequest request) {
-		return "/admin/user/list";
+		String path = APP_PATH + request.getServletContext().getContextPath();
+		request.setAttribute("app_path", path);
+		return "/admin/role/list";
 	}
 	
 	
@@ -38,9 +45,9 @@ public class AdminController {
 		if(offset == null || pageSize ==null) { return "Parameter Error"; }
 		String json = null; //返回的数据
 		try {
-			int total = adminService.getCountService(search);
+			int total = systemRoleService.getCountService(search);
 			BootStrapPager bootStrapPager = new BootStrapPager(offset, pageSize, total);
-			List<Admin> list = adminService.getListService(bootStrapPager.getPageNum(), pageSize,search);
+			List<SystemRole> list = systemRoleService.getListService(bootStrapPager.getPageNum(), pageSize,search);
 			bootStrapPager.setRows(list);
 			bootStrapPager.setSearch(search);
 			json = StringUtils.removeBracket(JsonUtils.toJSONString(bootStrapPager));
@@ -54,9 +61,9 @@ public class AdminController {
 	
 	@GetMapping("/{id}")
 	public String get(@PathVariable("id") String id) {
-		Admin admin = new Admin("0","","","");
+		SystemRole baen = new SystemRole("0", "", "", "", "", 0);
 		try {
-			admin = adminService.getBeanByIdService(id);
+			baen = systemRoleService.getBeanByIdService(id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,40 +74,42 @@ public class AdminController {
 	
 	@GetMapping("/toUpdate")
 	public String toUpdate(HttpServletRequest request,String id) {
-		Admin user = new Admin("0","","","");
+		SystemRole baen = new SystemRole("0", "", "", "", "", 0);
 		try {
 			if(id != null && !"0".equals(id)) {
-				user = adminService.getBeanByIdService(id);
+				baen = systemRoleService.getBeanByIdService(id);
 			}
-			request.setAttribute("user", user);
+			request.setAttribute("role", baen);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "/admin/user/update";
+		return "/admin/role/update";
 	}
 	
 	
 	/**
-	 * 保存/更新用户
-	 * @param admin
+	 * 保存/更新
+	 * @param role
 	 * @return
 	 */
 	@PostMapping("")
-	public String update(Admin admin) {
+	public String update(SystemRole role) {
 		try {
-			if(admin != null) {
-				if(!"0".equals(admin.getId())) {
-					adminService.updateService(admin);
+			if(role != null) {
+				if(!"0".equals(role.getId())) {
+					systemRoleService.updateService(role);
+					role.setUpdateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
 				}else {
-					admin.setId(StringUtils.getUUID());
-					adminService.saveService(admin);
+					role.setId(StringUtils.getUUID());
+					role.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+					systemRoleService.saveService(role);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/user/list";
+		return "redirect:/role/list";
 	}
 	
 	@GetMapping("/del")
@@ -109,7 +118,7 @@ public class AdminController {
 		int result = 0;
 		try {
 			if(id != null && !"0".equals(id)) {
-				result = adminService.deleteByIdService(id);
+				result = systemRoleService.deleteByIdService(id);
 			}
 			
 		} catch (Exception e) {
