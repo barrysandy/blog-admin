@@ -1,6 +1,7 @@
 package com.xgb.org.controller.admin.system;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class MenuController {
 	
 	
 	@GetMapping("/list")
-	public String list(HttpServletRequest request) {
+	public String list(HttpServletRequest request,Integer lord) {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		try {
 			List<SystemMeun> list = systemMeunService.getMenuTreeService();
@@ -48,10 +49,11 @@ public class MenuController {
 			request.setAttribute("app_path", path);
 			request.setAttribute("list", list);
 			request.setAttribute("listAll", listAll);
+			request.setAttribute("lord", lord);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/admin/menu/list";
+		return "admin/menu/list";
 	}
 	
 	@ResponseBody
@@ -112,8 +114,7 @@ public class MenuController {
 	
 	@GetMapping("/{id}")
 	public String get(@PathVariable("id") String id) {
-		SystemMeun baen = new SystemMeun("0", "", "", "", "", "",
-				1, 999, "0", null);
+		SystemMeun baen = new SystemMeun("0", "", "", "", "", "", 1, 999, "0", "fa fa-sliders", null);
 		try {
 			baen = systemMeunService.getBeanByIdService(id);
 			
@@ -125,19 +126,20 @@ public class MenuController {
 	}
 	
 	@GetMapping("/toUpdate")
-	public String toUpdate(HttpServletRequest request,String id) {
-		SystemMeun baen = new SystemMeun("0", "", "", "", "", "",
-				1, 999, "0", null);
+	public String toUpdate(HttpServletRequest request,String id,String parentId) {
+		SystemMeun baen = new SystemMeun("0", "", "", "", "", "",1, 999, "0", "fa fa-sliders",null);
 		try {
 			if(id != null && !"0".equals(id)) {
 				baen = systemMeunService.getBeanByIdService(id);
+			}else {
+				baen.setParentId(parentId);
 			}
-			request.setAttribute("role", baen);
+			request.setAttribute("menu", baen);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "/admin/menu/update";
+		return "admin/menu/update";
 	}
 	
 	
@@ -151,10 +153,11 @@ public class MenuController {
 		try {
 			if(bean != null) {
 				if(!"0".equals(bean.getId())) {
-					systemMeunService.updateService(bean);
 					bean.setUpdateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+					systemMeunService.updateService(bean);
 				}else {
-					bean.setId(StringUtils.getUUID());
+					String id = StringUtils.getGenerateRandNumber(2) + new Date().getTime();
+					bean.setId(id);
 					bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
 					systemMeunService.saveService(bean);
 				}
@@ -162,13 +165,12 @@ public class MenuController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/menu/list";
+		return "redirect:/menu/list?lord=1";
 	}
 	
 	@GetMapping("/del")
 	@ResponseBody
 	public int del(String id) {
-		System.err.println("del :" + id);
 		int result = 0;
 		try {
 			if(id != null && !"0".equals(id)) {

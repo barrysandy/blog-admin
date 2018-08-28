@@ -1,6 +1,8 @@
 package com.xgb.org.controller.admin.index;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xgb.org.domain.Admin;
+import com.xgb.org.domain.SystemMeun;
 import com.xgb.org.service.AdminService;
+import com.xgb.org.service.SystemMeunService;
 
 
 
@@ -19,7 +23,11 @@ import com.xgb.org.service.AdminService;
 public class IndexController {
 	
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
+	
+	@Autowired
+	private SystemMeunService systemMeunService;
+	
 	
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -28,18 +36,18 @@ public class IndexController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/login";
+		return "admin/login";
 	}
 	
 	@PostMapping("/loginIn")
 	public String loginIn(HttpServletRequest request,@RequestParam("name") String name,@RequestParam("password") String password) {
 		try {
-			System.out.println("name: " + name);
-			System.out.println("password: " + password);
 			Admin admin = adminService.getBeanByNameAndPassword(name, password);
 			if(admin != null) {
+				List<SystemMeun> sessionMenus = systemMeunService.getMenuTreeService();
 				HttpSession session = request.getSession();
 				session.setAttribute("admin", admin);
+				session.setAttribute("sessionMenus", sessionMenus);
 				return "redirect:/index";
 			}
 			
@@ -47,7 +55,7 @@ public class IndexController {
 			e.printStackTrace();
 		}
 		
-		return "/login";
+		return "login";
 	}
 	
 	
@@ -55,6 +63,8 @@ public class IndexController {
 	public String loginOut(HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
+			session.setAttribute("admin", null);
+			session.setAttribute("sessionMenus", null);
 			session.invalidate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,12 +76,14 @@ public class IndexController {
 	@GetMapping("/index")
 	public String index(HttpServletRequest request) {
 		try {
-			request.setAttribute("1", 1);
+			HttpSession session = request.getSession();
+			List<SystemMeun> sessionMenus = (List<SystemMeun>) session.getAttribute("sessionMenus");
+			request.setAttribute("sessionMenus", sessionMenus);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "/admin/index";
+		return "admin/index";
 	}
 
 	@GetMapping("/welcome")
@@ -82,6 +94,6 @@ public class IndexController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/welcome";
+		return "admin/welcome";
 	}
 }

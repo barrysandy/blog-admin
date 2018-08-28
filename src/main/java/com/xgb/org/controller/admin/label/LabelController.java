@@ -34,7 +34,7 @@ public class LabelController {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		System.out.println("path: " + path);
 		request.setAttribute("app_path", path);
-		return "/admin/label/list";
+		return "admin/label/list";
 	}
 	
 	
@@ -85,7 +85,7 @@ public class LabelController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/label/update";
+		return "admin/label/update";
 	}
 	
 	

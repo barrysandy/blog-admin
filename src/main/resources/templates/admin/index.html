@@ -63,55 +63,18 @@
 	                        <div class="logo-element">WS
 	                        </div>
 	                    </li>
-	                    <li>
-	                        <a href="#">
-	                            <i class="fa fa-desktop"></i><span class="nav-label">系统管理</span><span class="fa arrow"></span>
+	                    <li th:each="menu:${sessionMenus}">
+	                        <a th:href="@{${menu.url}}">
+	                            <i th:class="@{${menu.icon}}"></i><span class="nav-label" th:text="${menu.name}"></span><span class="fa arrow"></span>
 	                        </a>
-	                        <ul class="nav nav-second-level">
+	                        <ul class="nav nav-second-level" th:each="children:${menu.childrens}">
 	                            <li>
-	                                <a class="J_menuItem fa fa-sliders" th:href="@{/menu/list}" href="index_v1.html" data-index="0"><span class="meun_font">菜单管理</span></a>
-	                            </li>
-	                            <li>
-	                                <a class="J_menuItem fa fa-users" th:href="@{/role/list}" href="index_v1.html" data-index="0"><span class="meun_font">角色管理</span></a>
-	                            </li>
-	                            <li>
-	                                <a class="J_menuItem fa fa-user" th:href="@{/admin/list}" href="index_v1.html" data-index="0"><span class="meun_font">用户管理</span></a>
+	                                <a th:if="${children.icon} eq ''" class="J_menuItem" th:href="@{${children.url}}" data-index="0"><span class="meun_font" th:text="${children.name}"></span></a>
+	                            	<a th:if="${children.icon} ne ''" th:class="@{'J_menuItem ' + ${children.icon}}" th:href="@{${children.url}}" data-index="0"><span class="meun_font" th:text="${children.name}"></span></a>
 	                            </li>
 	                        </ul>
 	
 	                    </li>
-
-	                    <li>
-	                        <a href="#">
-	                            <i class="fa fa-book"></i>
-	                            <span class="nav-label">文章管理</span>
-	                            <span class="fa arrow"></span>
-	                        </a>
-	                        <ul class="nav nav-second-level">
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/art/list}" href="index_v1.html" data-index="0">文章列表</a>
-	                            </li>
-	                        </ul>
-	
-	                    </li>
-	                    
-	                    
-	                    
-	                    <li>
-	                        <a href="#">
-	                            <i class="fa fa-leaf"></i>
-	                            <span class="nav-label">标签管理</span>
-	                            <span class="fa arrow"></span>
-	                        </a>
-	                        <ul class="nav nav-second-level">
-	                            <li>
-	                                <a class="J_menuItem" th:href="@{/label/list}" href="index_v1.html" data-index="0">标签列表</a>
-	                            </li>
-	                        </ul>
-	
-	                    </li>
-	                    
-	                    
 	                </ul>
 	            </div>
 	        </nav>

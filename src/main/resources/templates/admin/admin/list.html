@@ -68,7 +68,7 @@
 	    <script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
 	    <script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 	    <script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
-	    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+	    <!-- <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script> -->
 	    
 	    <!-- BT Js -->
 	    <script th:src="@{/plugins/bootstrap-table/dist/bootstrap-table.js}" src="plugins/bootstrap-table/dist/bootstrap-table.js"></script>
@@ -78,7 +78,7 @@
 	    <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
 	    
 		<script type="text/javascript">
-		var path = $("#path").val() + "/admin/lists";
+		var path = "lists";
 		 $("#table").bootstrapTable({ // 对应table标签的id
 		      url: path, // 获取表格数据的url
 		      toolbar: '#toolbar', //工具按钮用哪个容器
@@ -156,7 +156,7 @@
 		
 		 
 		function update(id){
-			window.location.href = $("#path").val() + "/admin/toUpdate?id=" + id; 
+			window.location.href = "toUpdate?id=" + id; 
 		}
 		
 		function del(id){
@@ -169,7 +169,7 @@
 		        confirmButtonText: "删除",
 		        closeOnConfirm: false
 		    }, function () {
-		    	var url = $("#path").val() + "/admin/del";
+		    	var url = "del";
 		    	$.get(url,{'id':id,},function(result){
 	                if(result > 0){
 	                	swal("删除成功！", "您已经永久删除了这条信息。", "success");

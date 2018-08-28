@@ -28,61 +28,55 @@
 	        <div class="row">
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
-	                    <div class="ibox-title">
-	                        <h5 th:if="${role.id} eq '0' ">新增角色<small>（编辑）</small></h5>
-	                        <h5 th:if="${role.id} ne '0' ">更新角色<small>（编辑）</small></h5>
-	                        <div class="ibox-tools">
-	                            <a class="collapse-link" title="折叠">
-	                                <i class="fa fa-chevron-up"></i>
-	                            </a>
-	                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
-	                                <i class="fa fa-wrench"></i>
-	                            </a>
-	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="javascript:window.location.reload()">刷新</a></li>
-	                            </ul>
-	                            <a class="close-link" title="后退" onclick="window.history.go(-1)">
-	                                <i class="fa fa-times"></i>
-	                            </a>
-	                        </div>
-	                    </div>
 	                    <div class="ibox-content">
-	                        <form th:method="post" th:action="@{/role}" class="form-horizontal">
+	                        <form id="Iform" onsubmit='return checkForm()' th:method="post" th:action="@{/menu}" class="form-horizontal">
 	                        	<div class="form-group">
 	                                <label class="col-sm-2 control-label">编号</label>
 	                                <div class="col-sm-10">
-	                                    <input disabled="" class="form-control" type="text" th:value="${role.id}">
-	                                    <input type="hidden" name="createTime" th:value="${role.createTime}">
-	                                    <input type="hidden" name="updateTime" th:value="${role.updateTime}">
-	                                    <input type="hidden" name="id" th:value="${role.id}">
+	                                    <input disabled="" class="form-control" type="text" th:value="${menu.id}">
+	                                    <input type="hidden" name="id" th:value="${menu.id}">
+	                                    <input type="hidden" name="createTime" th:value="${menu.createTime}">
+	                                    <input type="hidden" name="statuses" th:value="${menu.statuses}">
+	                                    <input type="hidden" name="parentId" th:value="${menu.parentId}">
 	                                </div>
 	                            </div>
                                 <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">角色名称</label>
-	
+	                                <label class="col-sm-2 control-label">菜单名称</label>
 	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" name="name" th:value="${role.name}" >
-	                                </div>
-	                            </div>
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">描述</label>
-	
-	                                <div class="col-sm-10">
-	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${role.descM}">
+	                                    <input type="text" class="form-control" name="name" th:value="${menu.name}" >
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">状态</label>
-	
+	                                <label class="col-sm-2 control-label">菜单图标</label>
 	                                <div class="col-sm-10">
-	                                    <select class="form-control m-b" name="statuses">
-                                        <option value="1">启用 1</option>
-                                        <option value="0">锁定 0</option>
-                                    </select>
+	                                    <input type="text" class="form-control" name="icon" th:value="${menu.icon}" >
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">菜单URL</label>
+	                                <div class="col-sm-10">
+	                                    <input type="text" class="form-control" name="url" th:value="${menu.url}" >
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">菜单描述</label>
+	                                <div class="col-sm-10">
+	                                    <input type="text" class="form-control" name="descM" th:value="${menu.descM}" >
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">菜单排序<br><span style="font-size: 12px;">（越小越靠前）</span></label>
+	                                <div class="col-sm-10">
+	                                    <input type="text" class="form-control" name="sort" th:value="${menu.sort}" >
 	                                </div>
 	                            </div>
 	                            
@@ -90,7 +84,7 @@
 	                            <div class="form-group">
 	                                <div class="col-sm-4 col-sm-offset-2">
 	                                    <button class="btn btn-primary" type="submit">保存内容</button>
-	                                    <button class="btn btn-white" type="button" onclick="window.history.go(-1)">取消</button>
+	                                    <button class="btn btn-white" type="button" onclick="cancel()">取消</button>
 	                                </div>
 	                            </div>
 	                        </form>
@@ -108,10 +102,29 @@
 	    <script>
 	        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
 	    </script>
-	    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+	    <!-- <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script> -->
 	    
+        <!-- layui -->
+    	<script th:src="@{/js/layui/plugins/layer/layer.min.js}"></script>
+    	<script th:src="@{/js/layui/layui.js}"></script>
+    	<script th:src="@{/js/layui/layuiUtil.js}"></script>
+    	
+    	<script type="text/javascript">
+	    	function cancel() {
+	            window.parent.location.reload();
+	            var index = parent.layer.getFrameIndex(window.name);
+	            parent.layer.close(index);
+	        }
+	    	function checkForm() {
+	    		var form = document.getElementById('Iform');
+	    	    //可在此修改input            
+	    	    //进行下一步
+	    	    //window.parent.location.reload();
+            	//var index = parent.layer.getFrameIndex(window.name);
+	    	    //parent.layer.close(index);
+	    	    return ture;
+	            
+	        }
+    	</script>
 	</body>
-
-
-<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
 </html>

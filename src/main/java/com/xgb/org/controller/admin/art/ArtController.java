@@ -45,7 +45,7 @@ public class ArtController {
 	public String list(HttpServletRequest request) {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		request.setAttribute("app_path", path);
-		return "/admin/art/list";
+		return "admin/art/list";
 	}
 	
 	
@@ -102,7 +102,6 @@ public class ArtController {
 			}
 			
 			
-			System.out.println("vLabels: " + vLabels);
 			if(id != null && !"0".equals(id)) {
 				art = artService.getBeanByIdService(id);
 			}
@@ -112,7 +111,7 @@ public class ArtController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/art/update";
+		return "admin/art/update";
 	}
 	
 	

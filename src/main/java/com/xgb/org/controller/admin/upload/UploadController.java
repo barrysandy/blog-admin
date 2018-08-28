@@ -76,7 +76,7 @@ public class UploadController {
 	
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response) {
-		return "/admin/upload/index";
+		return "admin/upload/index";
 	}
 	
 }

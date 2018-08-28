@@ -34,7 +34,7 @@ public class AdminController {
 	public String list(HttpServletRequest request) {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		request.setAttribute("app_path", path);
-		return "/admin/admin/list";
+		return "admin/admin/list";
 	}
 	
 	
@@ -83,7 +83,7 @@ public class AdminController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/admin/update";
+		return "admin/admin/update";
 	}
 	
 	

@@ -35,7 +35,7 @@ public class RoleController {
 	public String list(HttpServletRequest request) {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		request.setAttribute("app_path", path);
-		return "/admin/role/list";
+		return "admin/role/list";
 	}
 	
 	
@@ -84,7 +84,7 @@ public class RoleController {
 			e.printStackTrace();
 		}
 		
-		return "/admin/role/update";
+		return "admin/role/update";
 	}
 	
 	
