@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+	<head>
+	
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	    <title></title>
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+	    <link th:href="@{/css/plugins/iCheck/custom.css}" href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	    <link th:href="@{/css/animate.min.css}" href="css/animate.min.css" rel="stylesheet">
+	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!-- BT Css -->
+	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+	    
+	    <!-- Sweet Alert -->
+    	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	    
+	</head>
+	
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h2>为您找到相关结果约100,000,000个： <span class="text-navy" th:text="${search}"></span></h2>
+                        <small>搜索用时  (0.23秒)</small>
+                        <div class="search-form">
+                            <form action="http://www.zi-han.net/theme/hplus/index.html" method="get">
+                                <div class="input-group">
+                                    <input type="text" placeholder="输入关键字" name="search" class="form-control input-lg">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-lg btn-primary" type="submit">搜索</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div th:each="list:${list}">
+	                        <div class="hr-line-dashed"></div>
+	                        <div class="search-result">
+	                            <h3><a th:text="${list.title}"></a></h3>
+	                            <p th:text="${list.descM}"></p>
+	                        </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-white" type="button"><i class="fa fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-white">1</button>
+                                <button class="btn btn-white  active">2</button>
+                                <button class="btn btn-white">3</button>
+                                <button class="btn btn-white">4</button>
+                                <button class="btn btn-white">5</button>
+                                <button class="btn btn-white">6</button>
+                                <button class="btn btn-white">7</button>
+                                <button class="btn btn-white" type="button"><i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	    
+	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+	    <script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	    <script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
+	    
+	    <!-- Sweet Alert -->
+	    <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	    
+	</body>
+</html>

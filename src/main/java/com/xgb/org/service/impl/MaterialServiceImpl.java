@@ -1,6 +1,12 @@
 package com.xgb.org.service.impl;
 
 
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +33,18 @@ import com.xgb.org.service.MaterialService;
 //@Transactional()
 @Service("materialService")
 public class MaterialServiceImpl implements MaterialService {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(MaterialService.class);
 
 	@Autowired
 	MaterialMapper materialMapper;
 
 	@Override
 	public int saveService(Material bean) throws Exception {
+		if(bean != null) {
+			Date time = new Date();
+			bean.setMaterialId(String.valueOf(time.getTime()));
+		}
 		return materialMapper.save(bean);
 	}
 
@@ -42,8 +54,20 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
-	public int deleteByIdService(String id) throws Exception {
-		return materialMapper.deleteById(id);
+	public int deleteByIdService(String url) throws Exception {
+		int rusult = 0;
+		Material material = getBeanByUrlService(url);
+		if(material != null) {
+			File file = new File(material.getDiskPath());
+			if(file.exists()) {
+				file.delete();
+				LOGGER.info("Log----Info : " + material.getDiskPath() + " has delete!! ");
+			}
+			rusult = materialMapper.deleteById(material.getId());
+		}
+		
+		
+		return rusult;
 	}
 
 	@Override
@@ -56,6 +80,40 @@ public class MaterialServiceImpl implements MaterialService {
 		return materialMapper.getBeanByUrl(url);
 	}
 
+	@Override
+	public List<Material> getListService(int index, int pageSize, String type, String search) throws Exception {
+		return materialMapper.getList(index, pageSize, type, search);
+	}
 
+	@Override
+	public int getCountService(String type,String search) throws Exception {
+		return materialMapper.getCount(type, search);
+	}
+
+	@Override
+	public synchronized Integer getMaxMaterialIdService() throws Exception {
+		return materialMapper.getMaxMaterialId();
+	}
+
+	@Override
+	public int deleteByMaterialIdService(String materialId) throws Exception {
+		int rusult = 0;
+		Material material = getBeanByMaterialIdService(materialId);
+		if(material != null) {
+			File file = new File(material.getDiskPath());
+			if(file.exists()) {
+				file.delete();
+				LOGGER.info("Log----Info : " + material.getDiskPath() + " has delete!! ");
+			}
+			rusult = materialMapper.deleteByMaterialId(materialId);
+		}
+		
+		return rusult;
+	}
+
+	@Override
+	public Material getBeanByMaterialIdService(String materialId) throws Exception {
+		return materialMapper.getBeanByMaterialIdService(materialId);
+	}
 
 }

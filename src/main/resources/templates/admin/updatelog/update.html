@@ -29,8 +29,8 @@
 	            <div class="col-sm-12">
 	                <div class="ibox float-e-margins">
 	                    <div class="ibox-title">
-	                        <h5 th:if="${admin.id} eq '0' ">新增管理员<small>（编辑）</small></h5>
-	                        <h5 th:if="${admin.id} ne '0' ">更新管理员<small>（编辑）</small></h5>
+	                        <h5 th:if="${bean.id} eq '0' ">新增系统更新日志<small>（编辑）</small></h5>
+	                        <h5 th:if="${bean.id} ne '0' ">更新系统更新日志<small>（编辑）</small></h5>
 	                        <div class="ibox-tools">
 	                            <a class="collapse-link" title="折叠">
 	                                <i class="fa fa-chevron-up"></i>
@@ -46,38 +46,22 @@
 	                            </a>
 	                        </div>
 	                    </div>
+	                    
 	                    <div class="ibox-content">
-	                        <form th:method="post" th:action="@{/admin}" class="form-horizontal">
+	                        <form th:method="post" th:action="@{/updateLog}" class="form-horizontal">
 	                        	<div class="form-group">
 	                                <label class="col-sm-2 control-label">编号</label>
 	                                <div class="col-sm-10">
-	                                    <input disabled="" class="form-control" type="text" th:value="${admin.id}">
-	                                    <input class="form-control" type="hidden"  name="id" th:value="${admin.id}">
+	                                    <input disabled="" class="form-control" type="text" th:value="${bean.id}">
+	                                    <input type="hidden"  name="id" th:value="${bean.id}">
 	                                </div>
 	                            </div>
                                 <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">用户名</label>
+	                                <label class="col-sm-2 control-label">标题</label>
 	
 	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" name="name" th:value="${admin.name}" >
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">别名</label>
-	
-	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" name="aliasName" th:value="${admin.aliasName}" >
-	                                </div>
-	                            </div>
-	                            
-	                            <div class="hr-line-dashed"></div>
-	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">密码</label>
-	                                <div class="col-sm-10">
-	                                    <input type="text" class="form-control" id="pw1" name="password" th:value="${admin.password}" >
+	                                    <input type="text" class="form-control" name="title" th:value="${bean.title}" >
 	                                </div>
 	                            </div>
 	                            
@@ -86,14 +70,41 @@
 	                                <label class="col-sm-2 control-label">描述</label>
 	
 	                                <div class="col-sm-10">
-	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${admin.descM}">
+	                                    <input type="text" class="form-control" name="descM" th:value="${bean.descM}" >
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">创建时间</label>
+	                                <div class="col-sm-10">
+	                                    <input disabled="" class="form-control" type="text" th:value="${bean.createTime}">
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">更新时间</label>
+	                                <div class="col-sm-10">
+	                                    <input disabled="" class="form-control" type="text" th:value="${bean.updateTime}">
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="hr-line-dashed"></div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label">完成度</label>
+	                                <div class="col-sm-10">
+	                                    <select class="form-control m-b" name="statuses">
+                                        <option value="0">未完成</option>
+                                        <option value="1">已完成</option>
+                                    </select>
 	                                </div>
 	                            </div>
 	                            
 	                            <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
 	                                <div class="col-sm-4 col-sm-offset-2">
-	                                    <button class="btn btn-primary" type="submit">保存内容</button>
+	                                    <button class="btn btn-primary" type="submit">保存日志</button>
 	                                    <button class="btn btn-white" type="button" onclick="window.history.go(-1)">取消</button>
 	                                </div>
 	                            </div>
@@ -112,7 +123,6 @@
 	    <script>
 	        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
 	    </script>
-	    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 	    
 	</body>
 

@@ -19,13 +19,11 @@ import com.xgb.org.common.BootStrapPager;
 import com.xgb.org.common.DateUtils;
 import com.xgb.org.common.JsonUtils;
 import com.xgb.org.common.StringUtils;
-import com.xgb.org.common.VerifyFileTypeUtils;
+import com.xgb.org.domain.Admin;
 import com.xgb.org.domain.Art;
 import com.xgb.org.domain.Label;
-import com.xgb.org.domain.Material;
 import com.xgb.org.service.ArtService;
 import com.xgb.org.service.LabelService;
-import com.xgb.org.service.MaterialService;
 import com.xgb.org.vo.VLabel;
 
 @Controller
@@ -37,7 +35,6 @@ public class ArtController {
 	
 	@Autowired private ArtService artService;
 	@Autowired private LabelService labelService;
-	@Autowired private MaterialService materialService;
 	
 	
 	
@@ -70,8 +67,9 @@ public class ArtController {
 	
 	
 	@GetMapping("/{id}")
-	public String get(@PathVariable("id") String id) {
-		Art art = new Art("0", "", "", "", "", "", null,0, "", "", "", 0 , 1);
+	public String get(@PathVariable("id") String id,HttpServletRequest request) {
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		Art art = new Art("0", "", "", "", "", "", null,0, "", "", "", 0 , 1,admin.getId());
 		try {
 			art = artService.getBeanByIdService(id);
 			
@@ -84,7 +82,8 @@ public class ArtController {
 	
 	@GetMapping("/toUpdate")
 	public String toUpdate(HttpServletRequest request,String id) {
-		Art art = new Art("0", "", "", "", "", "", null,0, "", DateUtils.getStringDate(DateUtils.simpleMinute), "", 0 , 1);
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		Art art = new Art("0", "", "", "", "", "", null,0, "", DateUtils.getStringDate(DateUtils.simpleMinute), "", 0 , 1,admin.getId());
 		try {
 			List<Label> labels = labelService.getListAll();
 			List<VLabel> vLabels = new ArrayList<>();
@@ -122,20 +121,30 @@ public class ArtController {
 	 */
 	@PostMapping("")
 	public String update(Art art,HttpServletRequest request,String diskPath) {
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
 		String[] lids = request.getParameterValues("lid");
 		try {
 			if(art != null) {
-				String id = StringUtils.getUUID();
+				String id;
 				if(!"0".equals(art.getId())) {
 					id = art.getId();
 					Art oldArt = artService.getBeanByIdService(art.getId());
 					art.setCreateTime(oldArt.getCreateTime());
 					art.setUpdateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
 					art.setViews(oldArt.getViews());
+					if(art.getAdminId() == null || "".equals(art.getAdminId())) {
+						if(oldArt.getAdminId() == null || "".equals(oldArt.getAdminId())) {
+							art.setAdminId(admin.getId());
+						}else {
+							art.setAdminId(oldArt.getAdminId());
+						}
+					}else System.err.println("222222");
 					artService.updateService(art);
 				}else {
+					id = StringUtils.getUUID();
 					art.setId(id);
 					art.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+					art.setAdminId(admin.getId());
 					artService.saveService(art,diskPath);
 					
 				}

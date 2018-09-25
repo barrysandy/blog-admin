@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+	<head>
+	
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	    <title></title>
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+	    <link th:href="@{/css/plugins/iCheck/custom.css}" href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	    <link th:href="@{/css/animate.min.css}" href="css/animate.min.css" rel="stylesheet">
+	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!-- BT Css -->
+	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+	    
+	    <!-- Sweet Alert -->
+    	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	    
+	</head>
+	
+	<body class="gray-bg">
+	    <div class="wrapper wrapper-content" align="left" style="margin-left: 20%;">
+	    	<div>文件名：<span th:text="${material.name}"></span></div>
+	    	<div>文件路径：<span th:text="${material.url}"></span></div>
+	    	<div>文件创建时间：<span th:text="${material.createTime}"></span></div>
+	    	<div>文件修改时间：<span th:text="${material.updateTime}"></span></div>
+	    	<div>文件资源ID：<span th:text="${material.materialId}"></span></div>
+	    </div>
+	    <div align="center">
+	    	<a th:href="${material.url}" target="_black">
+	        	<img alt="图片不能正常显示" th:src="${material.url}">
+	    	</a>
+        </div>
+		<script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+		<script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+		<script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
+		<script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+		<script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+		<script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
+		
+		<!-- Sweet Alert -->
+		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	    <script>
+	        $(document).ready(function(){$(".file-box").each(function(){animationHover(this,"pulse")})});
+	    </script>
+	    
+	    <!-- layui -->
+	   	<script th:src="@{/js/layui/plugins/layer/layer.min.js}"></script>
+	   	<script th:src="@{/js/layui/layui.js}"></script>
+	   	<script th:src="@{/js/layui/layuiUtil.js}"></script>
+	</body>
+	    
+</html>

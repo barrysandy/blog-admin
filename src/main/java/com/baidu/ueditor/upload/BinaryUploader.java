@@ -78,9 +78,7 @@ public class BinaryUploader {
             savePath = PathFormat.parse(savePath, originFileName);  
   
 //            String physicalPath = (String) conf.get("rootPath") + savePath;  
-            String basePath=(String) conf.get("basePath");
-            String physicalPath = basePath + savePath;
-            
+            String physicalPath = (String) conf.get("basePath") + savePath;
             
             //InputStream is = fileStream.openStream();  
             InputStream is = multipartFile.getInputStream();  

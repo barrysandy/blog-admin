@@ -39,10 +39,10 @@
 	                <ul class="nav" id="side-menu">
 	                    <li class="nav-header">
 	                        <div class="dropdown profile-element">
-	                            <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
+	                            <span><img alt="image" class="img-circle" src="img/profile_small.jpg" th:src="${session.admin.headImg}" /></span>
 	                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	                                <span class="clear">
-	                               <span class="block m-t-xs"><strong class="font-bold" th:text="${session.admin.name}">Beaut-zihan</strong></span>
+	                               <span class="block m-t-xs"><strong class="font-bold" th:text="${session.admin.aliasName}"></strong></span>
 	                                <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
 	                                </span>
 	                            </a>

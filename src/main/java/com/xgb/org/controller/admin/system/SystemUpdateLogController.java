@@ -1,4 +1,4 @@
-package com.xgb.org.controller.admin.label;
+package com.xgb.org.controller.admin.system;
 
 import java.util.List;
 
@@ -14,40 +14,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xgb.org.common.BootStrapPager;
+import com.xgb.org.common.DateUtils;
 import com.xgb.org.common.JsonUtils;
 import com.xgb.org.common.StringUtils;
-import com.xgb.org.domain.Label;
-import com.xgb.org.service.LabelService;
+import com.xgb.org.domain.SystemUpdateLog;
+import com.xgb.org.service.SystemUpdateLogService;
 
 @Controller
-@RequestMapping("label")
-public class LabelController {
+@RequestMapping("updateLog")
+public class SystemUpdateLogController {
 	
 	@Value("${app.path}")
 	private String APP_PATH;
 	
-	@Autowired private LabelService labelService;
+	@Autowired private SystemUpdateLogService systemUpdateLogService;
 	
 	
 	@GetMapping("/list")
 	public String list(HttpServletRequest request) {
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		request.setAttribute("app_path", path);
-		return "admin/label/list";
+		return "admin/updatelog/list";
 	}
 	
 	
 	@ResponseBody
 	@GetMapping("/lists")
-	public String lists(Integer offset,Integer pageSize,String search) {
+	public String lists(Integer offset,Integer pageSize) {
 		if(offset == null || pageSize ==null) { return "Parameter Error"; }
 		String json = null; //返回的数据
 		try {
-			int total = labelService.getCountService(search);
+			int total = systemUpdateLogService.getCountService();
 			BootStrapPager bootStrapPager = new BootStrapPager(offset, pageSize, total);
-			List<Label> list = labelService.getListService(bootStrapPager.getPageNum(), pageSize,search);
+			List<SystemUpdateLog> list = systemUpdateLogService.getListService((bootStrapPager.getPageNum() - 1)/pageSize, pageSize);
 			bootStrapPager.setRows(list);
-			bootStrapPager.setSearch(search);
+			bootStrapPager.setSearch("");
 			json = StringUtils.removeBracket(JsonUtils.toJSONString(bootStrapPager));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,9 +60,9 @@ public class LabelController {
 	
 	@GetMapping("/{id}")
 	public String get(@PathVariable("id") String id) {
-		Label bean = new Label("0", "",  999);
+		SystemUpdateLog bean = new SystemUpdateLog("0", "", "", "", "", 0);
 		try {
-			bean = labelService.getBeanByIdService(id);
+			bean = systemUpdateLogService.getBeanByIdService(id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,19 +73,18 @@ public class LabelController {
 	
 	@GetMapping("/toUpdate")
 	public String toUpdate(HttpServletRequest request,String id) {
-		Label bean = new Label("0", "",  999);
+		SystemUpdateLog bean = new SystemUpdateLog("0", "", "", "", "", 0);
 		try {
 			if(id != null && !"0".equals(id)) {
-				bean = labelService.getBeanByIdService(id);
+				bean = systemUpdateLogService.getBeanByIdService(id);
 			}
-			request.setAttribute("label", bean);
+			request.setAttribute("bean", bean);
 			
-			System.out.println("toUpdate: lable " + bean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "admin/label/update";
+		return "admin/updatelog/update";
 	}
 	
 	
@@ -94,20 +94,28 @@ public class LabelController {
 	 * @return
 	 */
 	@PostMapping("")
-	public String update(Label bean) {
+	public String update(SystemUpdateLog bean) {
 		try {
 			if(bean != null) {
+				String id;
 				if(!"0".equals(bean.getId())) {
-					labelService.updateService(bean);
+					id = bean.getId();
+					SystemUpdateLog old = systemUpdateLogService.getBeanByIdService(bean.getId());
+					bean.setCreateTime(old.getCreateTime());
+					bean.setUpdateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+					systemUpdateLogService.updateService(bean);
 				}else {
-					bean.setId(StringUtils.getUUID());
-					labelService.saveService(bean);
+					id = StringUtils.getUUID();
+					bean.setId(id);
+					bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+					systemUpdateLogService.saveService(bean);
 				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/label/list";
+		return "redirect:/updatelog/list";
 	}
 	
 	@GetMapping("/del")
@@ -116,7 +124,7 @@ public class LabelController {
 		int result = 0;
 		try {
 			if(id != null && !"0".equals(id)) {
-				result = labelService.deleteByIdService(id);
+				result = systemUpdateLogService.deleteByIdService(id);
 			}
 			
 		} catch (Exception e) {

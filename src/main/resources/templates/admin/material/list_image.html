@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+	<head>
+	
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	    <title></title>
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+	    <link th:href="@{/css/plugins/iCheck/custom.css}" href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	    <link th:href="@{/css/animate.min.css}" href="css/animate.min.css" rel="stylesheet">
+	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!-- BT Css -->
+	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+	    
+	    <!-- Sweet Alert -->
+    	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	    
+	</head>
+	
+	<body class="gray-bg">
+	    <div class="wrapper wrapper-content">
+	        <div class="row">
+	            <div class="col-sm-3">
+	                <div class="ibox float-e-margins">
+	                    <div class="ibox-content">
+	                        <div class="file-manager">
+	                            <h5><a href="javascript:window.location.reload()" class="glyphicon glyphicon-refresh" aria-hidden="true" title="刷新页面"></a><span style="margin-left: 10px;">资源操作：</span></h5>
+	                            <div class="hr-line-dashed"></div>
+	                            <h5>文件夹</h5>
+	                            <ul class="folder-list" style="padding: 0">
+	                                <li><a th:href="@{list}"><i class="fa fa-folder"></i> 图片</a></li>
+	                                <li><a th:href="@{list?type=video&cpage=1}"><i class="fa fa-folder"></i> 视频</a></li>
+	                                <li><a><i class="fa fa-folder"></i> 文档</a></li>
+	                                <li><a><i class="fa fa-folder"></i> 音乐</a></li>
+	                                <li><a><i class="fa fa-folder"></i> 语音</a></li>
+	                            </ul>
+	                            <div class="clearfix"></div>
+	                            <button class="btn btn-primary btn-block" onclick="img_input_file()">上传文件</button>
+	                            <form id="editForm" th:method="post" class="hide">
+	                            	<input type="file" accept="image/*" name="file" id="img_input_file" class="hide" onchange="doUploadImage();"/>
+	                            </form>
+	                            <script type="text/javascript">
+	                            	function img_input_file(){
+	                            		$("#img_input_file").click();
+	                            	}
+	                                updateImg = "";//上传文件的返回url
+	                                material_id = "";//上传文件的返回material_id
+	                                
+	                                /**
+	                                * 上传图片
+	                                */
+	                                function doUploadImage(){
+	                                    var formData = new FormData($( "#editForm" )[0]);
+	                                    var imgPath = $("#img_input_file").val();
+	                                    if (imgPath == "") {
+	                                        alert("请选择上传图片！");
+	                                        return;
+	                                    }
+	                                    //判断上传文件的后缀名
+	                                    var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+	                                    if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp' && strExtension != 'JPG' && strExtension != 'GIF' && strExtension != 'PNG' && strExtension != 'BMP') {
+	                                        alert("请选择图片文件");
+	                                        return;
+	                                    }
+	                                    $.ajax({
+	                                        url: '/admin/upload/upImage' ,
+	                                        type: 'POST',
+	                                        data: formData,
+	                                        async: false,
+	                                        cache: false,
+	                                        contentType: false,
+	                                        processData: false,
+	                                        dataType:'json',
+	                                        success: function (result) {
+	                                             //上传完成返回的图片路径
+	                                        	//alert("图片上传成功！！");
+	                                        	window.location.reload();
+	                                        },
+	                                        error: function (data) {
+	                                             alert("图片上传失败，服务器错误! data = " + data);
+	                                        }
+	                                    });
+	                                }
+	                            </script>
+	                            <div class="hr-line-dashed"></div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-sm-9 animated fadeInRight">
+	                <div class="row">
+	                    <div class="col-sm-12">
+	                        <div class="file-box" th:each="list:${list}">
+	                            <div class="file">
+	                                <a th:title="${list.name}"  th:onclick="'javascript:view('+${list.materialId}+');'">
+	                                    <span class="corner"></span>
+	                                    <div class="image">
+	                                        <img alt="image" class="img-responsive" th:src="${list.url}">
+	                                    </div>
+	                                    <div class="file-name">
+	                                        <div th:text="${list.name}" th:title="${list.name}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Italy street.jpg</div>
+	                                        <br/>
+	                                        <small th:text="${list.createTime}">添加时间：</small>
+	                                        <a title="删除资源" style="float: right;" th:onclick="'javascript:del('+${list.materialId}+');'">删除</a>
+	                                        <a title="查看资源" style="float: right;margin-right: 5px;" th:onclick="'javascript:view('+${list.materialId}+');'">查看</a>
+	                                    </div>
+	                                </a>
+	
+	                            </div>
+	                        </div>
+	
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		<script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+		<script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+		<script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
+		<script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+		<script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+		<script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
+		
+		<!-- Sweet Alert -->
+		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	    <script>
+	        $(document).ready(function(){$(".file-box").each(function(){animationHover(this,"pulse")})});
+	    </script>
+	    
+	    <!-- layui -->
+	   	<script th:src="@{/js/layui/plugins/layer/layer.min.js}"></script>
+	   	<script th:src="@{/js/layui/layui.js}"></script>
+	   	<script th:src="@{/js/layui/layuiUtil.js}"></script>
+	    <script type="text/javascript">
+	        function view (materialId) {
+	            layer.open({
+	                type: 2,
+	                title: '查看详情',
+	                skin: 'layui-layer-rim',
+	                area: ['85%', '90%'],
+	                content: 'get?materialId=' + materialId
+	            });
+	        }
+			function del(materialId){
+				layer.open({
+	                type: 1,
+	                title: '提示',
+	                skin: 'layui-layer-rim',
+	                area: ['400px', '235px'],
+	                content: '<div style="padding: 42px 112px; font-size: 16px; color: #808080;" >删除这条信息吗?</div>',
+	                btn: ['确认','取消'],
+	                yes: function(){
+	                    var url = "del";
+	    		    	$.get(url,{'materialId':materialId,},function(result){
+	    	                if(result > 0){
+	    	                	deleted();
+	    	                }else{
+	    	                	layer.closeAll();
+	    	                }
+	    	            });
+	                },
+	                btn2: function(){
+	                    console.log('no');
+	                }
+	            });
+			}
+			
+			function deleted() {
+				layer.open({
+	                type: 1,
+	                title: '删除',
+	                skin: 'layui-layer-rim',
+	                area: ['400px', '235px'],
+	                content: '<div style="padding: 42px 112px; font-size: 16px; color: #808080;" >删除成功</div>',
+	                btn: ['关闭'],
+	                btn2: function(){
+	                    layer.closeAll();
+	                    location.reload();
+	                },
+	                end: function () {
+	                    location.reload();
+	                }
+	            });
+	        }
+	    </script>
+	</body>
+	    
+</html>

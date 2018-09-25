@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xgb.org.domain.Admin;
 import com.xgb.org.domain.SystemMeun;
+import com.xgb.org.domain.SystemUpdateLog;
 import com.xgb.org.service.AdminService;
 import com.xgb.org.service.SystemMeunService;
+import com.xgb.org.service.SystemUpdateLogService;
 
 
 
@@ -27,6 +29,9 @@ public class IndexController {
 	
 	@Autowired
 	private SystemMeunService systemMeunService;
+	
+	@Autowired 
+	private SystemUpdateLogService systemUpdateLogService;
 	
 	
 	@GetMapping("/login")
@@ -48,6 +53,7 @@ public class IndexController {
 				HttpSession session = request.getSession();
 				session.setAttribute("admin", admin);
 				session.setAttribute("sessionMenus", sessionMenus);
+				session.setMaxInactiveInterval(3 * 60 * 60);//设置session时间3小时
 				return "redirect:/index";
 			}
 			
@@ -87,9 +93,14 @@ public class IndexController {
 	}
 
 	@GetMapping("/welcome")
-	public String welcome(HttpServletRequest request) {
+	public String welcome(HttpServletRequest request,Integer pageSize) {
+		if(pageSize == null) { 
+			pageSize = 100;
+		}
 		try {
-			request.setAttribute("1", 1);
+			int index = 0;
+			List<SystemUpdateLog> list = systemUpdateLogService.getListService(index, pageSize);
+			request.setAttribute("list", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

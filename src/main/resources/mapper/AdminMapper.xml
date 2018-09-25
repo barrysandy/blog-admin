@@ -4,12 +4,15 @@
 	<resultMap id="BaseResultMap" type="com.xgb.org.domain.Admin">
 		<id property="id" column="id" javaType="java.lang.String"></id>
 		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="aliasName" column="aliasName" javaType="java.lang.String"></result>
+		<result property="email" column="email" javaType="java.lang.String"></result>
+		<result property="headImg" column="headImg" javaType="java.lang.String"></result>
 		<result property="password" column="password" javaType="java.lang.String"></result>
 		<result property="descM" column="descM" javaType="java.lang.String"></result>
 		<result property="roleId" column="roleId" javaType="java.lang.String"></result>
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,name,password,descM,roleId
+		id,name,aliasName,email,headImg,password,descM,roleId
 	</sql>
 	
 	<!-- 按ID查询 -->
@@ -25,9 +28,9 @@
 	<!-- 保存用户 -->
 	<insert id="save" parameterType="com.xgb.org.domain.Admin">
 		insert into t_admin
-		(id,name,password,descM)
+		(id,name,aliasName,email,headImg,password,descM)
 		values
-		(#{id},#{name},#{password},#{descM} )
+		(#{id},#{name},#{aliasName},#{email},#{headImg},#{password},#{descM} )
 	</insert>
 	
 	<!-- 更新用户 -->
@@ -36,6 +39,9 @@
 		<set>
 			<if test="id != null">id =#{id},</if>
 			<if test="name != null">name =#{name},</if>
+			<if test="aliasName != null">aliasName =#{aliasName},</if>
+			<if test="email != null">email =#{email},</if>
+			<if test="headImg != null">headImg =#{headImg},</if>
 			<if test="password != null">password =#{password},</if>
 			<if test="descM != null">descM =#{descM},</if>
 		</set>

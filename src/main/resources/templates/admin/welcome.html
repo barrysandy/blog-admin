@@ -18,15 +18,37 @@
 	    <div class="row  border-bottom white-bg dashboard-header">
 	        <div class="col-sm-12">
 	            <blockquote class="text-warning" style="font-size:14px">
-	            	您是否需要自己做一款后台、会员中心等等的，但是又缺乏html等前端知识…
-	                <br>您是否一直在苦苦寻找一款适合自己的后台主题…
-	                <br>您是否想做一款自己的web应用程序…
+	            	当前版本V_20180901_0900
+	                <br>待修复，文章编辑中内容编辑的富文本编辑器暂时无法上传图片（方案，添加资源管理器）。
 	                <br>…………
-	                <h4 class="text-danger">UI框架，H+</h4>
+	                <h4 class="text-danger">维护-By（Barrysandy凌青子）</h4>
 	            </blockquote>
 	            <hr>
 	        </div>
 	    </div>
+        <div class="wrapper wrapper-content">
+	        <div class="row animated fadeInRight">
+	            <div class="col-sm-12">
+	                <div class="ibox float-e-margins">
+	                    <div class="ibox-content timeline">
+							<div class="timeline-item" th:each="list:${list}">
+	                            <div class="row">
+	                                <div class="col-xs-3 date" style="width: 130px;">
+	                                    <i class="fa fa-file-text"></i><br><small class="text-navy" th:text="${list.createTime}"></small>
+	                                </div>
+	                                <div class="col-xs-7 content">
+	                                    <p class="m-b-xs"><strong th:text="${list.title}"></strong></p><p th:text="${list.descM}"></p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    
+	    
 	    
 	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
 	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>

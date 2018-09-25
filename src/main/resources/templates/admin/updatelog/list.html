@@ -22,6 +22,10 @@
 	    <!-- BT Css -->
 	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
 	    
+	    
+	    <!-- 图标 Font Awesome http://fontawesome.dashgame.com/ -->
+	    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+	    
 	    <!-- Sweet Alert -->
     	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 	    
@@ -29,9 +33,9 @@
 	
 	<body class="gray-bg">
 		<input type="hidden" id="path" th:value="${app_path }" />
-	    <div class="ibox float-e-margins">
+		<div class="ibox float-e-margins">
 			<div class="ibox-title">
-	            <h5>用户列表<small>（<a th:href="@{toUpdate}">新增</a>）</small> </h5>
+	            <h5>系统更新日志列表<small>（<a th:href="@{toUpdate}">新增</a>）</small> </h5>
 	            <div class="ibox-tools">
 	                <a class="collapse-link" title="折叠">
 	                    <i class="fa fa-chevron-up"></i>
@@ -61,14 +65,12 @@
 		        </div>	
 		    </div>
 	    </div>
-	    
 	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
 	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
 	    <script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
 	    <script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
 	    <script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 	    <script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
-	    <!-- <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script> -->
 	    
 	    <!-- BT Js -->
 	    <script th:src="@{/plugins/bootstrap-table/dist/bootstrap-table.js}" src="plugins/bootstrap-table/dist/bootstrap-table.js"></script>
@@ -112,40 +114,34 @@
 		              checkbox: true, // 显示一个勾选框
 		              align: 'center' // 居中显示
 		          }, {
-		              field: 'id', // 返回json数据中的name
-		              title: 'ID', // 表格表头显示文字
-		              width: '5%', // 定义列的宽度，单位为像素px
-		              align: 'center', // 左右居中
-		              valign: 'middle' // 上下居中
-		          }, {
-		              field: 'name',
-		              title: '名称',
-		              width: '15%', // 定义列的宽度，单位为像素px
+		              field: 'id',
+		              title: '编号',
+		              width: '25%', // 定义列的宽度，单位为像素px
 		              align: 'center',
 		              valign: 'middle'
 		          }, {
-		              field: 'aliasName',
-		              title: '别名',
+		              field: 'title',
+		              title: '标题',
 		              width: '15%', // 定义列的宽度，单位为像素px
-		              align: 'center',
-		              valign: 'middle'
-		          }, {
-		              field: 'password',
-		              title: '密码',
-		              width: '10%', // 定义列的宽度，单位为像素px
 		              align: 'center',
 		              valign: 'middle'
 		          }, {
 		              field: 'descM',
 		              title: '描述',
-		              width: '45%', // 定义列的宽度，单位为像素px
+		              width: '25%', // 定义列的宽度，单位为像素px
+		              align: 'center',
+		              valign: 'middle'
+		          }, {
+		              field: 'createTime',
+		              title: '创建时间',
+		              width: '10%', // 定义列的宽度，单位为像素px
 		              align: 'center',
 		              valign: 'middle'
 		          }, {
 		              title: "操作",
 		              align: 'center',
 		              valign: 'middle',
-		              width: '10%', // 定义列的宽度，单位为像素px
+		              width: '20%', // 定义列的宽度，单位为像素px
 		              formatter: function (value, row, index) {
 		                  return '<button class="btn btn-primary btn-sm" onclick="update(\'' + row.id + '\')">更新</button> <button class="btn btn-danger btn-sm" onclick="del(\'' + row.id + '\')">删除</button>';
 		              }
@@ -190,7 +186,4 @@
 		
 		</script>
 	</body>
-	
-
-<!-- Mirrored from www.zi-han.net/theme/hplus/table_data_tables.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
 </html>

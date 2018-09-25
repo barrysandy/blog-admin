@@ -8,13 +8,12 @@ import com.xgb.org.filter.LoginInterceptor;
 
 @Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer{
-
+    
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/css/**",
-				"/js/**","/img/**","/core/**","/fonts/**","/laypage/**","/plugins/**");
+				"/js/**","/img/**","/images/**","/image/**","/core/**","/fonts/**","/laypage/**","/plugins/**","/admin/search/**");
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
-	
 }

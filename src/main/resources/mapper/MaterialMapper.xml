@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgb.org.dao.MaterialMapper">
+	<resultMap id="BaseResultMap" type="com.xgb.org.domain.Material">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="url" column="url" javaType="java.lang.String"></result>
+		<result property="diskPath" column="diskPath" javaType="java.lang.String"></result>
+		<result property="type" column="type" javaType="java.lang.String"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+		<result property="status" column="status" javaType="java.lang.Integer"></result>
+		<result property="materialId" column="materialId" javaType="java.lang.String"></result>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name,url,diskPath,type,createTime,updateTime,status,materialId
+	</sql>
+	
+	<select id="getList" parameterType="java.util.Map"
+		resultMap="BaseResultMap" resultType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from t_material where 1=1
+		<if test="type == 'image'">
+			AND (type LIKE concat('%','jpg','%') OR type LIKE concat('%','jpeg','%') OR type LIKE concat('%','png','%') OR type LIKE concat('%','gif','%'))
+		</if>
+		<if test="type == 'video'">
+			AND (type LIKE concat('%','mp4','%') OR type LIKE concat('%','avi','%'))
+		</if>
+		<if test="search != null">
+			AND (type LIKE concat('%',#{search},'%') OR type LIKE concat('%',#{search},'%'))
+		</if>
+		ORDER BY materialId DESC
+	</select>
+	
+	<select id="getCount" parameterType="com.xgb.org.domain.Material" resultType="int">
+		select count(*) 
+		from t_material where 1=1
+		<if test="type == 'image'">
+			AND (type LIKE concat('%','jpg','%') OR type LIKE concat('%','jpeg','%') OR type LIKE concat('%','png','%') OR type LIKE concat('%','gif','%'))
+		</if>
+		<if test="type == 'video'">
+			AND (type LIKE concat('%','mp4','%') OR type LIKE concat('%','avi','%'))
+		</if>
+		<if test="search != null">
+			AND (type LIKE concat('%',#{search},'%') OR type LIKE concat('%',#{search},'%'))
+		</if>
+	</select>
+	
+
+</mapper>

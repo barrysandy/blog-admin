@@ -13,16 +13,17 @@
 		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
 		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
 		<result property="statuses" column="statuses" javaType="java.lang.Integer"></result>
-		
-		<collection property="labels" column="art_id" ofType="com.xgb.org.domain.Label" select="com.xgb.org.dao.LabelMapper.getListByArtId">
-			<id property="id" column="id" javaType="java.lang.String"></id>
-			<result property="name" column="name" javaType="java.lang.String"></result>
-			<result property="sort" column="sort" javaType="java.lang.Integer"></result>
-		</collection>
-		
+		<result property="adminId" column="adminId" javaType="java.lang.String"></result>
+		<association property="admin" column="adminId" javaType="com.xgb.org.domain.Admin" select="com.xgb.org.dao.AdminMapper.getBeanById">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<id column="name" jdbcType="VARCHAR" property="name" />
+			<id column="password" jdbcType="VARCHAR" property="password" />
+			<id column="descM" jdbcType="VARCHAR" property="descM" />
+			<id column="roleId" jdbcType="VARCHAR" property="roleId" />
+		</association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,title,image,descM,content,typese,isResouce,url,createTime,updateTime,statuses
+		id,title,image,descM,content,typese,isResouce,url,createTime,updateTime,statuses,adminId
 	</sql>
 	
 	<!-- 按ID查询 -->
@@ -38,9 +39,9 @@
 	<!-- 保存 -->
 	<insert id="save" parameterType="com.xgb.org.domain.Art">
 		insert into t_art
-		(id,title,image,descM,content,typese,isResouce,url,createTime,updateTime,statuses)
+		(id,title,image,descM,content,typese,isResouce,url,createTime,updateTime,statuses,adminId)
 		values
-		(#{id},#{title},#{image},#{descM},#{content},#{typese},#{isResouce},#{url},#{createTime},#{updateTime},#{statuses} )
+		(#{id},#{title},#{image},#{descM},#{content},#{typese},#{isResouce},#{url},#{createTime},#{updateTime},#{statuses},#{adminId} )
 	</insert>
 	
 	<!-- 更新 -->
@@ -57,7 +58,8 @@
 			<if test="url != null">url =#{url},</if>
 			<if test="createTime != null">createTime =#{createTime},</if>
 			<if test="updateTime != null">updateTime =#{updateTime},</if>
-			<if test="statuses != null">statuses =#{statuses}</if>
+			<if test="statuses != null">statuses =#{statuses},</if>
+			<if test="adminId != null">adminId =#{adminId}</if>
 		</set>
 		where id = #{id}
 	</update>

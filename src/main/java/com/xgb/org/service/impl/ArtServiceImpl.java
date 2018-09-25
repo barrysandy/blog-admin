@@ -11,10 +11,10 @@ import com.xgb.org.common.DateUtils;
 import com.xgb.org.common.StringUtils;
 import com.xgb.org.common.VerifyFileTypeUtils;
 import com.xgb.org.dao.ArtMapper;
-import com.xgb.org.dao.MaterialMapper;
 import com.xgb.org.domain.Art;
 import com.xgb.org.domain.Material;
 import com.xgb.org.service.ArtService;
+import com.xgb.org.service.MaterialService;
 
 
 /**
@@ -39,8 +39,7 @@ public class ArtServiceImpl implements ArtService {
 	@Autowired
 	ArtMapper artMapper;
 	
-	@Autowired
-	MaterialMapper materialMapper;
+	@Autowired private MaterialService materialService;
 
 	@Override
 	public int saveService(Art bean,String diskPath) throws Exception {
@@ -49,12 +48,25 @@ public class ArtServiceImpl implements ArtService {
 		String fileType = VerifyFileTypeUtils.getFileType(diskPath);
 		Material material = new Material(StringUtils.getUUID(), bean.getTitle(), bean.getImage(), 
 				diskPath, fileType, 1, DateUtils.getStringDate(DateUtils.simpleMinute),"");
-		materialMapper.save(material);
+		materialService.saveService(material);
 		return result;
 	}
 
 	@Override
 	public int updateService(Art bean) {
+		//判断资源是否改变
+		//改变则 删除旧资源
+		Art oldBean = artMapper.getBeanById(bean.getId());
+		if(oldBean.getImage() != null && bean.getImage() != null) {
+			if(!oldBean.getImage().equals(bean.getImage())) {
+				try {
+					materialService.deleteByIdService(oldBean.getImage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return artMapper.update(bean);
 	}
 

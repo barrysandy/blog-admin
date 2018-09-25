@@ -19,7 +19,7 @@ public interface AdminMapper {
 	
 	Admin getBeanById(@Param("id") String id);
 	
-	@Select("select id,name,password,descM,roleId from t_admin where name = #{name} and password = #{password}")
+	@Select("select id,name,aliasName,email,headImg,password,descM,roleId from t_admin where name = #{name} and password = #{password}")
 	Admin getBeanByNameAndPassword(@Param("name") String name,@Param("password") String password);
 	
 	List<Admin> getList(@Param("search") String search);

@@ -42,7 +42,6 @@
 	                                <i class="fa fa-wrench"></i>
 	                            </a>
 	                            <ul class="dropdown-menu dropdown-user">
-	                                <li><a href="javascript:submit()">保存</a></li>
 	                                <li><a href="javascript:window.location.reload()">刷新</a></li>
 	                            </ul>
 	                            <a class="close-link" title="后退" onclick="window.history.go(-1)">
@@ -50,14 +49,9 @@
 	                            </a>
 	                        </div>
 	                    </div>
-	                    <script type="text/javascript">
-	                    	function submit(){
-	                    		document.editForm.submit();
-	                    	}
-	                    </script>
 	                    
 	                    <div class="ibox-content">
-	                        <form id="editForm" name="editForm" th:method="post" th:action="@{/art}" class="form-horizontal">
+	                        <form id="editForm" th:method="post" th:action="@{/art}" class="form-horizontal">
 	                        	<div class="form-group">
 	                                <label class="col-sm-2 control-label">编号</label>
 	                                <div class="col-sm-10">
@@ -152,13 +146,10 @@
 	                            
 	                            <div class="hr-line-dashed"></div>
 	                            <div class="form-group">
-	                                <label class="col-sm-2 control-label">栏目类型</label>
+	                                <label class="col-sm-2 control-label">类型</label>
+	
 	                                <div class="col-sm-10">
-	                                	<select class="form-control m-b" name="typese">
-                                        	<option th:selected="${art.typese  eq 'study'}" value="study">我的学习</option>
-                                        	<option th:selected="${art.typese  eq 'fun'}" value="fun">我的娱乐</option>
-                                        	<option th:selected="${art.typese  eq 'life'}" value="life">慢生活</option>
-                                    	</select>
+	                                    <input type="text" class="form-control" name="typese" th:value="${art.typese}" >
 	                                </div>
 	                            </div>
 	                            
@@ -178,7 +169,7 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-2 control-label">描述</label>
 	                                <div class="col-sm-10">
-	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${art.descM}" maxlength="150">
+	                                    <input type="text" placeholder="描述信息" class="form-control" name="descM" th:value="${art.descM}" maxlength="50">
 	                                </div>
 	                            </div>
 	                            
