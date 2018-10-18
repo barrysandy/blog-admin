@@ -19,7 +19,7 @@ spring:
 
   # 开发时关闭缓存,不然没法看到实时页面
   thymeleaf:
-    cache: true
+    cache: false
     
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

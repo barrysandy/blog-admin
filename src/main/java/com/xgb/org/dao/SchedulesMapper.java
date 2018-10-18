@@ -2,7 +2,11 @@ package com.xgb.org.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.xgb.org.domain.Schedules;
@@ -10,12 +14,18 @@ import com.xgb.org.domain.Schedules;
 @Repository
 public interface SchedulesMapper {
 	
+	@Insert("Insert into t_schedules(title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId) "
+			+ "values(#{title},#{typese},#{sendEmail},#{sendMessage},#{runTime},#{createTime},#{updateTime},#{statuses},#{adminId} )")
 	int save(Schedules bean) throws Exception;
 	
+	@Update("update t_schedules set title =#{title},typese =#{typese},sendEmail =#{sendEmail},sendMessage =#{sendMessage},runTime =#{runTime},"
+			+ "updateTime =#{updateTime},statuses =#{statuses},adminId =#{adminId} where id = #{id}")
 	int update(Schedules bean) throws Exception;
 	
+	@Delete("DELETE FROM t_schedules WHERE id = #{id} ")
 	int deleteById(@Param("id") Integer id) throws Exception;
 	
+	@Select("SELECT id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId FROM t_schedules WHERE id = #{id} )")
 	Schedules getBeanById(@Param("id") Integer id) throws Exception;
 	
 	/**

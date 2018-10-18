@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Mirrored from www.zi-han.net/theme/hplus/table_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:01 GMT -->
+	<head>
+	
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	
+	    <title></title>
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	
+	    <link rel="shortcut icon" href="favicon.ico"> 
+	    <link th:href="@{/css/bootstrap.min14ed.css?v=3.3.6}" href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+	    <link th:href="@{/css/font-awesome.min93e3.css?v=4.4.0}" href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+	    <link th:href="@{/css/plugins/iCheck/custom.css}" href="css/plugins/iCheck/custom.css" rel="stylesheet">
+	    <link th:href="@{/css/animate.min.css}" href="css/animate.min.css" rel="stylesheet">
+	    <link th:href="@{/css/style.min862f.css?v=4.1.0}" href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+	    
+	    <!-- BT Css -->
+	    <link th:href="@{/plugins/bootstrap-table/dist/bootstrap-table.css}" href="plugins/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+	    
+	    <!-- Sweet Alert -->
+    	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	    <style type="text/css">
+	    	.calendar{
+	    		width: 100%;
+	    	}
+	    	.calendar th{
+	    		height: 80px;
+	    		text-align: center;
+	    	}
+	    	.calendar td{
+	    		height: 120px;
+	    	}
+	    	.calendar_Head{
+	    		text-align: center;
+	    		margin-left: 35%;
+	    		margin-right: 35%;
+	    	}
+	    	.calendar_btn{
+	    		border:0;
+	    		background:0;
+	    	}
+	    </style>
+	</head>
+	
+	<body class="gray-bg">
+		<input type="hidden" id="path" th:value="${app_path }" />
+	    <div class="ibox float-e-margins">
+			<div class="ibox-title">
+	            <h5>排期</h5>
+	            <div class="ibox-tools">
+	                <a class="collapse-link" title="折叠">
+	                    <i class="fa fa-chevron-up"></i>
+	                </a>
+	                <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#" title="操作">
+	                    <i class="fa fa-wrench"></i>
+	                </a>
+	                <ul class="dropdown-menu dropdown-user">
+	                    <li><a href="javascript:window.location.reload()">刷新</a></li>
+	                </ul>
+<!-- 	                <a class="close-link" title="后退" onclick="window.history.go(-1)">
+	                    <i class="fa fa-times"></i>
+	                </a> -->
+	            </div>
+	        </div>
+	        <div class="ibox-content" id="table">
+		    </div>
+	    </div>
+	    
+	    <script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
+	    <script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
+	    <script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/jquery.dataTables.js}" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+	    <script th:src="@{/js/plugins/dataTables/dataTables.bootstrap.js}" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	    <script th:src="@{/js/content.min.js?v=1.0.0}" src="js/content.min.js?v=1.0.0"></script>
+	    <!-- <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script> -->
+	    
+	    <!-- BT Js -->
+	    <script th:src="@{/plugins/bootstrap-table/dist/bootstrap-table.js}" src="plugins/bootstrap-table/dist/bootstrap-table.js"></script>
+	    <script th:src="@{/plugins/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js}" src="plugins/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+	    
+	    <!-- Sweet Alert -->
+	    <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}" src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	    
+		<script type="text/javascript">
+		//获取时间
+		var date = new Date();
+		var y = date.getFullYear();
+		var _m = date.getMonth();
+		var d = date.getDate();
+		var monthArr = [31,getFubuary(),31,30,31,30,31,31,30,31,30,31];
+
+		//console.log(y,_m,d,monthArr);
+
+		//生成日历
+		loadcalendar(document.body);
+
+		function loadcalendar(dom,month,year){
+		dom.innerHTML = '';
+		var tab = document.createElement("table");
+		tab.className = "calendar";
+		var date = new Date();
+		var y = year || date.getFullYear();
+		var m = month || _m;
+
+		//console.log(m);
+		var firstDay = new Date(y,m,1).getDay();
+		var numRow = Math.ceil((firstDay + monthArr[m]) / 7);
+		tab.setAttribute("border","1");
+		var calendarStr = "",dayID;
+		for(var i = 0;i < numRow;i++){
+		calendarStr += "<tr>";
+		for(var j = 0;j < 7;j++){
+		dayID = 7*i + j -firstDay + 1;
+		if(dayID <= 0 || dayID > monthArr[m]){dayID=''};
+		dayID == d && m == date.getMonth()?calendarStr += "<td class='active'>" + dayID + "</td>":calendarStr += "<td>" + dayID + "</td>";
+		};
+		calendarStr += "</tr>";
+		}
+		//console.log(calendarStr);
+		tab.innerHTML = "<caption><div class='calendar_Head'><button id='reduce2' class='calendar_btn'>--</button><button id='reduce' class='calendar_btn'>-</button><button class='calendar_btn'>" + y + "年" + (parseInt(m) + parseInt(1)) + "月</button><button id='add' class='calendar_btn'>+</button><button id='add2' class='calendar_btn'>++</button>" +  "</div></caption><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th>" + calendarStr;
+		//将日历加入body中
+		dom.appendChild(tab);
+		};
+
+		//判断是否是闰年
+		function getFubuary(year){
+		if(year % 4){
+		return 28;
+		}else{
+		if(year % 100){
+		return 29
+		}else{
+		return 28;
+		}
+		}
+		}
+
+		//增加减少月份功能实现
+		document.body.addEventListener("click",function(e){
+			var m = _m;
+			var _year = y;
+			var e = e || window.event;
+			if(e.target.id == "reduce"){
+				//console.log(0)
+				if(_m > 0){
+					_m -= 1;
+				}else{
+					_m = 12;
+					_year -= 1;
+				}
+				m = _m;
+				loadcalendar(document.body,m,_year);
+			};
+			if(e.target.id == "reduce2"){
+				if(y > 0){
+					y -= 1;
+				}
+				console.log(y)
+				_year = y;
+				loadcalendar(document.body,m,_year);
+			};
+			if(e.target.id == "add"){
+				//console.log(1)
+				if(_m < 11){
+					_m += 1;
+				}else{
+					_m = 1;
+					y += 1;
+				}
+				m = _m;
+				loadcalendar(document.body,m,_year);
+			}
+			if(e.target.id == "add2"){
+				if(y < 10000){
+					y += 1;
+				}
+				console.log(y)
+				_year = y;
+				loadcalendar(document.body,m,_year);
+			}
+		});
+		</script>
+	</body>
+</html>

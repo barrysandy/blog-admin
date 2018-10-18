@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,7 +16,7 @@ import com.xgb.org.domain.Schedules;
 import com.xgb.org.service.SchedulesService;
 
 @Controller
-@RequestMapping("schedules")
+@RequestMapping("schedule")
 public class SchedulesController {
 	
 	@Value("${app.path}")
@@ -25,13 +24,24 @@ public class SchedulesController {
 	
 	@Autowired private SchedulesService schedulesService;
 	
+	@GetMapping("index")
+	public String index(HttpServletRequest request) {
+		System.err.println("admin/schedules/index");
+		String path = APP_PATH + request.getServletContext().getContextPath();
+		request.setAttribute("app_path", path);
+		return "admin/schedules/index";
+	}
+	
+	
 	/**
 	 * 保存/更新
 	 * @param art
 	 * @return
 	 */
 	@GetMapping("")
+	@ResponseBody
 	public String update(Schedules bean,HttpServletRequest request) {
+		System.out.println("");
 		String result = "0";
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
 		try {
@@ -51,6 +61,13 @@ public class SchedulesController {
 					result = schedulesService.saveService(bean) + "";
 					
 				}
+			}else {
+				Integer id;
+				id = null;
+				bean = new Schedules(id, "title", "typese", 1, 0, "runTime", "createTime", "updateTime", 0, "adminId", null);
+				bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+				bean.setAdminId(admin.getId());
+				result = schedulesService.saveService(bean) + "";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
