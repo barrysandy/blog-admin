@@ -1,13 +1,18 @@
 package com.xgb.org.service.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xgb.org.common.DateUtils;
 import com.xgb.org.dao.SchedulesMapper;
 import com.xgb.org.domain.Schedules;
 import com.xgb.org.service.SchedulesService;
+import com.xgb.org.vo.VSchedules;
 
 /**
  * SpringBoot 事务配置
@@ -53,19 +58,55 @@ public class SchedulesServiceImpl implements SchedulesService
 	@Override
 	public Schedules getBeanByIdService(Integer id) throws Exception 
 	{
+		
 		return mapper.getBeanById(id);
 	}
 
 	@Override
-	public List<Schedules> getListService(String beginTime, String endTime, String typese, String adminId) throws Exception 
+	public List<VSchedules> getListService(String beginTime, String endTime, String typese, String adminId) throws Exception 
 	{
-		return mapper.getList(beginTime, endTime, typese, adminId);
+		List<VSchedules> list = new ArrayList<>();
+		List<Schedules> listSchedules = mapper.getList(beginTime, endTime, typese, adminId);
+		long time1 = System.currentTimeMillis();
+		if(listSchedules != null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			int year = calendar.get(Calendar.YEAR);//获取年份
+	        int month = calendar.get(Calendar.MONTH) + 1;//获取月份
+			for (int i = 1; i <= DateUtils.getMonthLastDay(year, month); i++) {
+				VSchedules vSchedules = new VSchedules();
+				vSchedules.setDay(i);
+				List<Schedules> temp = new ArrayList<>();
+				for (int j = 0; j < listSchedules.size(); j++) {
+				   Schedules obj = listSchedules.get(j);
+					if(obj != null) {
+						String day = obj.getRunTime().split("-")[2];
+						day = day.split(" ")[0];
+						if(Integer.parseInt(day) == i) {
+							temp.add(obj);
+						}
+					}
+				}
+				vSchedules.setTotal(temp.size());
+				vSchedules.setSchedules(temp);
+				list.add(vSchedules);
+			}
+		}
+		long time2 = System.currentTimeMillis();
+		System.err.println("排期数据加工时间：" + (time2 - time1));
+		return list;
 	}
 
 	@Override
 	public int getCountService(String beginTime, String endTime, String typese, String adminId) throws Exception 
 	{
 		return mapper.getCount(beginTime, endTime, typese, adminId);
+	}
+
+	@Override
+	public List<Schedules> getListCurrentHourService(String beginTime, String endTime, String typese)
+			throws Exception {
+		return mapper.getListCurrentHour(beginTime, endTime, typese);
 	}
 
 

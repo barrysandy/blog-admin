@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgb.org.dao.SchedulesMapper">
+	<resultMap id="BaseResultMap" type="com.xgb.org.domain.Schedules">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="title" column="title" javaType="java.lang.String"></result>
+		<result property="typese" column="typese" javaType="java.lang.String"></result>
+		<result property="sendEmail" column="sendEmail" javaType="java.lang.Integer"></result>
+		<result property="sendMessage" column="sendMessage" javaType="java.lang.Integer"></result>
+		<result property="runTime" column="runTime" javaType="java.lang.String"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+		<result property="statuses" column="statuses" javaType="java.lang.Integer"></result>
+		<result property="adminId" column="adminId" javaType="java.lang.String"></result>
+	</resultMap>
+	
+	<resultMap id="BaseResultMapAdmin" type="com.xgb.org.domain.Schedules">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="title" column="title" javaType="java.lang.String"></result>
+		<result property="typese" column="typese" javaType="java.lang.String"></result>
+		<result property="sendEmail" column="sendEmail" javaType="java.lang.Integer"></result>
+		<result property="sendMessage" column="sendMessage" javaType="java.lang.Integer"></result>
+		<result property="runTime" column="runTime" javaType="java.lang.String"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+		<result property="statuses" column="statuses" javaType="java.lang.Integer"></result>
+		<result property="adminId" column="adminId" javaType="java.lang.String"></result>
+		<association property="admin" column="adminId" javaType="com.xgb.org.domain.Admin" select="com.xgb.org.dao.AdminMapper.getBeanById">
+			<id property="id" column="id" javaType="java.lang.String"></id>
+			<result property="name" column="name" javaType="java.lang.String"></result>
+			<result property="aliasName" column="aliasName" javaType="java.lang.String"></result>
+			<result property="email" column="email" javaType="java.lang.String"></result>
+		</association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId
+	</sql>
+	
+	<select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap" resultType="java.util.List">
+		select id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId
+		from t_schedules 
+		where adminId=#{adminId} AND runTime &gt;= #{beginTime} AND runTime &lt;= #{endTime} ORDER BY runTime
+		
+	</select>
+	
+	<select id="getCount" parameterType="com.xgb.org.domain.Schedules" resultType="int">
+		select count(*) 
+		from t_schedules
+		where adminId=#{adminId} AND runTime &gt;= #{beginTime} AND runTime &lt;= #{endTime}
+	</select>
+	
+	
+	<select id="getListCurrentHour" parameterType="java.util.Map" resultMap="BaseResultMapAdmin" resultType="java.util.List">
+		select id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId
+		from t_schedules 
+		where runTime &gt;= #{beginTime} AND runTime &lt;= #{endTime} ORDER BY runTime
+	</select>
+</mapper>

@@ -49,4 +49,15 @@ public interface SchedulesMapper {
 	 * @throws Exception
 	 */
 	int getCount(@Param("beginTime") String beginTime,@Param("endTime") String endTime,@Param("typese") String typese,@Param("adminId") String adminId) throws Exception;
+	
+	/**
+	 * 按照开始和结束时间以及类型查询排期集合
+	 * @param beginTime
+	 * @param endTime
+	 * @param typese
+	 * @return 返回排期集合
+	 * @throws Exception
+	 */
+	List<Schedules> getListCurrentHour(@Param("beginTime") String beginTime,@Param("endTime") String endTime,@Param("typese") String typese) throws Exception;
+	
 }

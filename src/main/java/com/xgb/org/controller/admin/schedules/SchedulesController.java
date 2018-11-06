@@ -1,19 +1,26 @@
 package com.xgb.org.controller.admin.schedules;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xgb.org.common.DateUtils;
+import com.xgb.org.common.JsonUtils;
+import com.xgb.org.common.Result;
 import com.xgb.org.domain.Admin;
 import com.xgb.org.domain.Schedules;
 import com.xgb.org.service.SchedulesService;
+import com.xgb.org.vo.VSchedules;
 
 @Controller
 @RequestMapping("schedule")
@@ -26,10 +33,55 @@ public class SchedulesController {
 	
 	@GetMapping("index")
 	public String index(HttpServletRequest request) {
-		System.err.println("admin/schedules/index");
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		request.setAttribute("app_path", path);
 		return "admin/schedules/index";
+	}
+	
+	
+	@GetMapping("getCurrentMonthSchedules")
+	@ResponseBody
+	public Result getCurrentMonthSchedules(HttpServletRequest request) {
+		String result = null;
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		String bTime = DateUtils.getBeginTime();
+		String eTime = DateUtils.getEndTime();
+		List<VSchedules> list = new ArrayList<>();
+		try {
+			list = schedulesService.getListService(bTime, eTime, "", admin.getId());
+			result = JsonUtils.toJSONString(list);
+		}catch(Exception e){
+			e.printStackTrace();//统一的异常处理
+			return new Result<String>(2,"error",e.getMessage());
+		}
+		return new Result<String>(1,"success","success",result);
+	}
+	
+	@GetMapping("add")
+	public String add(HttpServletRequest request,String date) {
+		System.err.println("admin/schedules/index");
+		String path = APP_PATH + request.getServletContext().getContextPath();
+		Schedules bean = new Schedules(0, "", "", 1, 0, "", "", "", 0, "");
+		request.setAttribute("bean", bean);
+		request.setAttribute("path", path);
+		return "admin/schedules/addOrUpdate";
+	}
+	
+	
+	@PostMapping("save")
+	@ResponseBody
+	public String save(HttpServletRequest request,Schedules bean) {
+		String result = "0";
+		Admin admin = (Admin) request.getSession().getAttribute("admin");
+		try {
+			bean.setAdminId(admin.getId());
+			bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+			schedulesService.saveService(bean);
+			result = "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	
