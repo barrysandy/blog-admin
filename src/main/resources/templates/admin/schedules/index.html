@@ -96,13 +96,13 @@
 	    		width: 5%;
 	    		height: 100%;
 	    		float: left;
-	    		background-color: red;
+	    		background-color: #04ef29;
 	    	}
 	    	.smallContent{
 	    		width: 95%;
 	    		height: 100%;
 	    		float: right;
-	    		background-color: #ccc;
+	    		background-color: #fbf349;
 	    	}
 	    	.smallContentDiv{
 	    		width: 95%;
@@ -210,9 +210,10 @@
 							dayID = 7 * i + j - firstDay + 1;
 							if(dayID <= 0 || dayID > monthArr[m]){ dayID = '' };
 							var divBig = "<div class='bigDiv'>";
-							var top = "<div class='topDiv'><div class='topDiv1'>" + dayID + "</div><div class='topDiv2'><div class='topDiv2Add' id='topDiv2Add' name=" + dayID + ">+</div></div></div>";
+							var top = "";
 							var buttonDivScrollSmallDiv = "";
 							if(dayID != ''){
+								top = "<div class='topDiv'><div class='topDiv1'>" + dayID + "</div><div class='topDiv2'><div class='topDiv2Add' id='topDiv2Add' name=" + dayID + ">+</div></div></div>";
 								var currentDayData = data[parseInt(dayID) - 1].schedules;
 								if(currentDayData.length > 0){
 									buttonDivScrollSmallDiv = "<div class='buttonDivScrollYes'>";
@@ -220,7 +221,7 @@
 										var id = currentDayData[k].id;
 										var content = currentDayData[k].title + " " + currentDayData[k].runTime.split(" ")[1];
 										buttonDivScrollSmallDiv = buttonDivScrollSmallDiv + 
-										"<div class='buttonDivScrollSmall'><div class='smallAdd' name=" + id + "></div><div class='smallContent'><div class='smallContentDiv'>" + content + "</div></div></div>";
+										"<div class='buttonDivScrollSmall'><div class='smallAdd' id='smallAdd' name=" + id + "></div><div class='smallContent'><div class='smallContentDiv'>" + content + "</div></div></div>";
 									}
 									buttonDivScrollSmallDiv = buttonDivScrollSmallDiv + "</div>";
 								}
@@ -338,6 +339,20 @@
 		            });
 				}
 			}
+			if(e.target.id == "smallAdd")
+			{
+				var id = e.target.attributes.name.value;
+				if(id != ""){
+					layer.open({
+		                type: 2,
+		                title: '更新',
+		                skin: 'layui-layer-rim',
+		                area: ['100%', '100%'],
+		                content: 'update?id='+ id
+		            });
+				}
+			}
+			
 		});
 		</script>
 		

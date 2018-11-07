@@ -31,7 +31,8 @@
 		    <div class="layout-center">
 		        <form id="editForm" action="@{/save}" method="post">
 		            <div class="g-max f-p-xs f-p-t-n" id="PrintContentDiv">
-		                <input type="hidden" id="id" name="id" value="0">
+		                <input type="hidden" id="id" name="id" th:value="${bean.id}">
+		                <input type="hidden" id="adminId" name="adminId" th:value="${bean.adminId}">
 		                <table class="m-table-forms inline">
 		                    <tr>
 		                        <td align="center" colspan="8" class="f-b-n" style="font-size:18px">排期</td>

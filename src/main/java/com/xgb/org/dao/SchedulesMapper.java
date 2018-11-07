@@ -25,7 +25,6 @@ public interface SchedulesMapper {
 	@Delete("DELETE FROM t_schedules WHERE id = #{id} ")
 	int deleteById(@Param("id") Integer id) throws Exception;
 	
-	@Select("SELECT id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId FROM t_schedules WHERE id = #{id} )")
 	Schedules getBeanById(@Param("id") Integer id) throws Exception;
 	
 	/**

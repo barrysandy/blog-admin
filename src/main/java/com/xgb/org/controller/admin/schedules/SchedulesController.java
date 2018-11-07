@@ -67,6 +67,20 @@ public class SchedulesController {
 		return "admin/schedules/addOrUpdate";
 	}
 	
+	@GetMapping("update")
+	public String update(HttpServletRequest request,Integer id) {
+		System.err.println("admin/schedules/index");
+		String path = APP_PATH + request.getServletContext().getContextPath();
+		try {
+			Schedules bean = schedulesService.getBeanByIdService(id);
+			request.setAttribute("bean", bean);
+			System.err.println(bean);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("path", path);
+		return "admin/schedules/addOrUpdate";
+	}
 	
 	@PostMapping("save")
 	@ResponseBody
@@ -74,10 +88,18 @@ public class SchedulesController {
 		String result = "0";
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
 		try {
-			bean.setAdminId(admin.getId());
-			bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
-			schedulesService.saveService(bean);
-			result = "1";
+			if(bean.getId() == 0) {
+				bean.setAdminId(admin.getId());
+				bean.setCreateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+				schedulesService.saveService(bean);
+				result = "1";
+			}else {
+				bean.setAdminId(admin.getId());
+				bean.setUpdateTime(DateUtils.getStringDate(DateUtils.simpleMinute));
+				schedulesService.updateService(bean);
+				result = "1";
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

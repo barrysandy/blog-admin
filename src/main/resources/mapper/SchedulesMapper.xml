@@ -37,6 +37,10 @@
 		id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId
 	</sql>
 	
+	<select id="getBeanById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from t_schedules where id = #{id}
+	</select>
+	
 	<select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap" resultType="java.util.List">
 		select id,title,typese,sendEmail,sendMessage,runTime,createTime,updateTime,statuses,adminId
 		from t_schedules 
