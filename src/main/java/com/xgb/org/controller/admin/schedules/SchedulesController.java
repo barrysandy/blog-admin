@@ -57,9 +57,20 @@ public class SchedulesController {
 		return new Result<String>(1,"success","success",result);
 	}
 	
+
+	
+	@GetMapping("del")
+	public String del(HttpServletRequest request,Integer id) {
+		try {
+			schedulesService.deleteByIdService(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/schedule/index";
+	}
+	
 	@GetMapping("add")
 	public String add(HttpServletRequest request,String date) {
-		System.err.println("admin/schedules/index");
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		Schedules bean = new Schedules(0, "", "", 1, 0, "", "", "", 0, "");
 		request.setAttribute("bean", bean);
@@ -69,7 +80,6 @@ public class SchedulesController {
 	
 	@GetMapping("update")
 	public String update(HttpServletRequest request,Integer id) {
-		System.err.println("admin/schedules/index");
 		String path = APP_PATH + request.getServletContext().getContextPath();
 		try {
 			Schedules bean = schedulesService.getBeanByIdService(id);
@@ -149,7 +159,7 @@ public class SchedulesController {
 		return result;
 	}
 	
-	@GetMapping("/del")
+/*	@GetMapping("/del")
 	@ResponseBody
 	public int del(Integer id) {
 		int result = 0;
@@ -162,7 +172,7 @@ public class SchedulesController {
 			e.printStackTrace();
 		}
 		return result;
-	}
+	}*/
 	
 
 }
