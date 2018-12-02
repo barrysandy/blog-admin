@@ -32,19 +32,17 @@ public class SchedulesTask {
 
 	@Scheduled(cron = "0 0/1 * * * ? ")
     private void process() throws Exception{
-        System.out.println("[" + Thread.currentThread().getName() + "]" + "this is scheduler task runing  "+(count++));
+        //System.out.println("[" + Thread.currentThread().getName() + "]" + "this is scheduler task runing  "+(count++));
         String bTime = DateUtils.getStringDate(DateUtils.simpleMinute);
-        System.out.println("bTime: " + bTime + " eTime: " + bTime);
+        //System.out.println("bTime: " + bTime + " eTime: " + bTime);
+        //当前排期数据
         List<Schedules> list = schedulesService.getListCurrentHourService(bTime, bTime, "");
-        System.out.println("list: " + list);
         if(list != null) {
         	if(list.size() > 0) {
         		for (int i = 0; i < list.size(); i++) {
         			SendEmailUtils.sendEmial(list.get(i).getAdmin().getEmail(), "[" + list.get(i).getAdmin().getAliasName() + "]--[排期提醒]" + bTime , list.get(i).getTitle());
         		}	
-        	}else {
-            	System.out.println("当前时间没有排期");
-            }
+        	}
         }
     }
 }

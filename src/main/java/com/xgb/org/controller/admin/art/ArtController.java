@@ -83,7 +83,7 @@ public class ArtController {
 	@GetMapping("/toUpdate")
 	public String toUpdate(HttpServletRequest request,String id) {
 		Admin admin = (Admin) request.getSession().getAttribute("admin");
-		Art art = new Art("0", "", "", "", "", "", null,0, "", DateUtils.getStringDate(DateUtils.simpleMinute), "", 0 , 1,admin.getId());
+		Art art = new Art("0", "", "", "", "", "", null,0, "", DateUtils.getStringDate(DateUtils.simpleMinute), "", 0 , 0,admin.getId());
 		try {
 			List<Label> labels = labelService.getListAll();
 			List<VLabel> vLabels = new ArrayList<>();

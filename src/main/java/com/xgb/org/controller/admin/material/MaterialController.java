@@ -1,5 +1,7 @@
 package com.xgb.org.controller.admin.material;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,7 @@ public class MaterialController {
 	@Autowired private LabelService labelService;
 	@Autowired private MaterialService materialService;
 	
-	@Value("${app.pageSize}")
+	@Value("${app.MaterialPageSize}")
 	private Integer pageSize;
 	
 	/**
@@ -59,11 +61,27 @@ public class MaterialController {
 			int totalPage = PageUtils.totalPage(totalCurrent, pageSize);
 			int index = (cpage -1) * pageSize;
 			List<Material> list = materialService.getListService(index, pageSize, type, search);
+/*			if(list != null){
+				List<Material> listNew = new ArrayList<>();
+				Iterator<Material> iterator = list.iterator();
+				while(iterator.hasNext()){
+					Material bean = iterator.next();
+					if(bean != null){
+						if(bean.getCreateTime() != null && !"".equals(bean.getCreateTime())){
+							bean.setCreateTime(bean.getCreateTime().substring(0, 10));
+						}
+					}
+					listNew.add(bean);
+				}
+				request.setAttribute("list", listNew);
+			}*/
 			request.setAttribute("list", list);
 			request.setAttribute("search", search);
 			request.setAttribute("type", type);
 			request.setAttribute("totalPage", totalPage);
+			request.setAttribute("total", totalCurrent);
 			request.setAttribute("cpage", cpage);
+			request.setAttribute("pageSize", pageSize);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
