@@ -36,8 +36,8 @@
 	    	<div>文件资源ID：<span th:text="${material.materialId}"></span></div>
 	    </div>
 	    <div align="center">
-	    	<a th:href="${material.url}" target="_black">
-	        	<img alt="图片不能正常显示" th:src="${material.url}">
+	    	<a th:href="${material.url}" target="_black" th:title="点击查看大图">
+	        	<img alt="图片不能正常显示" th:src="${material.url}" style="height: 500px;width: auto;">
 	    	</a>
         </div>
 		<script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>

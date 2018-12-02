@@ -24,6 +24,10 @@
 	    
 	    <!-- Sweet Alert -->
     	<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    	
+    	<!-- Pager -->
+    	<link rel="stylesheet" th:href="@{/js/pager/myPagination.css}" href="myPagination.css">
+		<script th:src="@{/js/pager/myPagination.js}" src="myPagination.js"></script>
 	    
 	</head>
 	
@@ -110,9 +114,9 @@
 	                                    <div class="file-name">
 	                                        <div th:text="${list.name}" th:title="${list.name}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">Italy street.jpg</div>
 	                                        <br/>
-	                                        <small th:text="${list.createTime}">添加时间：</small>
-	                                        <a title="删除资源" style="float: right;" th:onclick="'javascript:del('+${list.materialId}+');'">删除</a>
-	                                        <a title="查看资源" style="float: right;margin-right: 5px;" th:onclick="'javascript:view('+${list.materialId}+');'">查看</a>
+	                                        <small><div th:text="${list.createTime}" style="margin-top: -15px;width:80px;height:18px;overflow:hidden;float: left;"></div></small>
+	                                        <a title="删除资源" style="float: right;margin-top: -15px;" th:onclick="'javascript:del('+${list.materialId}+');'">删除</a>
+	                                        <a title="查看资源" style="float: right;margin-top: -15px;margin-right: 5px;" th:onclick="'javascript:view('+${list.materialId}+');'">查看</a>
 	                                    </div>
 	                                </a>
 	
@@ -123,7 +127,16 @@
 	                </div>
 	            </div>
 	        </div>
+	        <div style="width: 100%;height: auto;">
+	        	<div style="margin-left: 35%;">
+			        <!-- pager -->
+			        <div id="pagination" class="pagination"></div>
+				</div>
+	        </div>
+	        
+        
 	    </div>
+	    
 		<script th:src="@{/js/jquery.min.js?v=2.1.4}" src="js/jquery.min.js?v=2.1.4"></script>
 		<script th:src="@{/js/bootstrap.min.js?v=3.3.6}" src="js/bootstrap.min.js?v=3.3.6"></script>
 		<script th:src="@{/js/plugins/jeditable/jquery.jeditable.js}" src="js/plugins/jeditable/jquery.jeditable.js"></script>
@@ -147,7 +160,7 @@
 	                type: 2,
 	                title: '查看详情',
 	                skin: 'layui-layer-rim',
-	                area: ['85%', '90%'],
+	                area: ['80%', '80%'],
 	                content: 'get?materialId=' + materialId
 	            });
 	        }
@@ -192,6 +205,27 @@
 	                }
 	            });
 	        }
+			
+			var total = [[${total}]];
+			var pageSize = [[${pageSize}]];
+			var totalPage = [[${totalPage}]];
+			var cpage = [[${cpage}]];
+			
+			new Page({
+				id: 'pagination',
+				curPage: cpage, //初始页码
+				pageTotal: totalPage, //总页数
+				pageAmount: pageSize, //每页多少条
+				dataTotal: total, //总共多少条数据
+				pageSize: 10, //可选,分页个数
+				showPageTotalFlag: true, //是否显示数据统计
+				showSkipInputFlag: true, //是否支持跳转
+				getPage: function(page) {
+	                 //获取当前页数
+	                 var url = "/admin/material/list?cpage=" + page;
+	                 window.location.href = url;
+				}
+			})
 	    </script>
 	</body>
 	    

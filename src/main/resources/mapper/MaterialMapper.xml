@@ -31,6 +31,7 @@
 			AND (type LIKE concat('%',#{search},'%') OR type LIKE concat('%',#{search},'%'))
 		</if>
 		ORDER BY materialId DESC
+		limit #{index},#{pageSize}
 	</select>
 	
 	<select id="getCount" parameterType="com.xgb.org.domain.Material" resultType="int">
